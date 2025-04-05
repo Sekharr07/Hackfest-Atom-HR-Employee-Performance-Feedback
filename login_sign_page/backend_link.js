@@ -84,12 +84,12 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('username', email.split('@')[0]);
       
-        // if (email.toLowerCase().includes('hr')) {
-        //   window.location.href = 'hr-dashboard.html';
-        // } else {
-        //   window.location.href = 'dashboard-landing.html';
-        // }
-
+        if (email.toLowerCase().includes('hr')) {
+          window.location.href = '/hr_homepage.html';
+        } else {
+          window.location.href = '/index_1.html'
+        }
+        
         }
         const userData={
             email: email,
@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (err) {
              console.error('Fetch error:', err);
             }
+            window.location.href='/index_1.html'
         
     });
     

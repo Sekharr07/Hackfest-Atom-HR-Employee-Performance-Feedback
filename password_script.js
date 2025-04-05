@@ -18,6 +18,8 @@ const port = 3000
 app.use(express.static(path.join(__dirname, 'login_sign_page')));
 app.use(express.static(path.join(__dirname, 'opening_page')));
 
+
+
 app.post('/login',async(req,res)=>{
   const {email,password}=req.body;
   try{
