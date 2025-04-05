@@ -1,10 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose');
 const path = require('path');
+const axios = require('axios');
+const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express()
-app.use(express.json());
+app.use(express.json())
+
 const User=require('./password_modules/user');
 
 mongoose.connect('mongodb://127.0.0.1:27017/myappdb', {
@@ -52,3 +55,10 @@ app.post('/users', async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+
+const Prediction = mongoose.model('Prediction', {
+  input: Array,
+  output: Array,
+});
+
