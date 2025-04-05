@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
             } catch (err) {
              console.error('Fetch error:', err);
             }
-            window.location.href='/index_1.html'
         
     });
     

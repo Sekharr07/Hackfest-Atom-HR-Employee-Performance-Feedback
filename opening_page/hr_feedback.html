@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoFloww HR - Feedback Analytics</title>
+  <meta name="description" content="Employee Feedback Analytics for GoFloww's Atom HR platform" />
+  
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Theme Variables */
+    :root {
+      /* Dark Theme */
+      --background: #1A1F2C;
+      --foreground: #F8FAFC;
+      --card: #222232;
+      --card-foreground: #F8FAFC;
+      --card-secondary: #2d2d40;
+      --primary: #9b87f5;
+      --primary-foreground: #FFFFFF;
+      --secondary: #5CB9AA;
+      --secondary-foreground: #1A1F2C;
+      --muted: #333A47;
+      --muted-foreground: #A0AEC0;
+      --accent: #413c73;
+      --accent-foreground: #F8FAFC;
+      --destructive: #E53E3E;
+      --destructive-foreground: #F8FAFC;
+      --border: #333A47;
+      --input: #333A47;
+      --ring: #9b87f5;
+      --sidebar: #16191F;
+      --radius: 8px;
+      --transition: 0.3s ease;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --emerald: #10B981;
+      --red: #EF4444;
+      --blue: #3B82F6;
+      --amber: #F59E0B;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    .main-container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: var(--sidebar);
+      border-right: 1px solid var(--border);
+      width: 240px;
+      height: 100%;
+      transition: width var(--transition);
+      overflow: hidden;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+
+    .sidebar-collapsed {
+      width: 60px;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(to right, var(--primary), #7E69AB);
+      border-radius: 6px;
+    }
+
+    .logo-text {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .sidebar-collapse-btn {
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 4px;
+      transition: background-color var(--transition);
+    }
+
+    .sidebar-collapse-btn:hover {
+      background-color: var(--muted);
+    }
+
+    .sidebar-collapse-icon {
+      transition: transform var(--transition);
+    }
+
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+
+    .nav-container {
+      padding: 16px 12px;
+      overflow-y: auto;
+      height: calc(100% - 64px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-section {
+      margin-bottom: 16px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      margin: 4px 0;
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--muted-foreground);
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    .nav-item:hover {
+      background-color: var(--muted);
+      color: var(--foreground);
+    }
+
+    .nav-item.active {
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+    }
+
+    .nav-icon {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .sidebar-collapsed .nav-icon {
+      margin-right: 0;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      color: var(--muted-foreground);
+    }
+
+    .divider {
+      height: 1px;
+      background-color: var(--border);
+      margin: 16px 0;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background-color: var(--background);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(8px);
+    }
+
+    .search-container {
+      position: relative;
+      width: 240px;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: var(--muted-foreground);
+      width: 16px;
+      height: 16px;
+    }
+
+    .search-input {
+      background-color: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 8px 8px 32px;
+      width: 100%;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-button {
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color var(--transition);
+      position: relative;
+    }
+
+    .header-button:hover {
+      background-color: var(--muted);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      background-color: var(--destructive);
+      border-radius: 50%;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Content */
+    .content {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      background: linear-gradient(to bottom, var(--background), var(--card));
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(to right, var(--primary), #7E69AB);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .page-subtitle {
+      color: var(--muted-foreground);
+    }
+
+    .card {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 24px;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    /* Employee feedback */
+    .employee-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .employee-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .employee-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .employee-card {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border);
+    }
+
+    .employee-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .employee-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .employee-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .employee-name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .employee-title {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    /* Filter bar */
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .filter-select {
+      flex: 1;
+      min-width: 150px;
+      background-color: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .filter-select:focus {
+      border-color: var(--primary);
+    }
+
+    /* Sentiment indicators */
+    .sentiment-bar {
+      display: flex;
+      height: 8px;
+      overflow: hidden;
+      border-radius: 4px;
+      margin-top: 8px;
+      background-color: var(--muted);
+    }
+
+    .sentiment-positive {
+      background-color: var(--emerald);
+      height: 100%;
+    }
+
+    .sentiment-neutral {
+      background-color: var(--amber);
+      height: 100%;
+    }
+
+    .sentiment-negative {
+      background-color: var(--destructive);
+      height: 100%;
+    }
+
+    .feedback-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    /* Feedback list */
+    .feedback-list {
+      max-height: 200px;
+      overflow-y: auto;
+      margin-top: 16px;
+    }
+
+    .feedback-item {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    .feedback-item:last-child {
+      border-bottom: none;
+    }
+
+    .feedback-rating {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .rating-high {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: var(--emerald);
+    }
+
+    .rating-medium {
+      background-color: rgba(245, 158, 11, 0.2);
+      color: var(--amber);
+    }
+
+    .rating-low {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: var(--destructive);
+    }
+
+    .feedback-text {
+      font-style: italic;
+      color: var(--muted-foreground);
+    }
+
+    .chart-container {
+      height: 120px;
+      position: relative;
+      margin-top: 16px;
+    }
+
+    .chart-bar {
+      display: inline-block;
+      background-color: var(--primary);
+      position: absolute;
+      bottom: 0;
+      border-radius: 4px 4px 0 0;
+      width: 8%;
+      transition: height 0.5s ease;
+    }
+
+    /* Top performers styling */
+    .top-performer-card {
+      background: linear-gradient(to right bottom, var(--card), #2e2a4a);
+      border: 1px solid var(--primary);
+      box-shadow: 0 0 15px rgba(155, 135, 245, 0.2);
+    }
+
+    .top-performer-avatar {
+      background: linear-gradient(to right bottom, var(--primary), #7E69AB);
+      border: 2px solid white;
+    }
+
+    .top-performer-badge {
+      background: linear-gradient(to right, var(--primary), #7E69AB);
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 10px;
+      display: inline-block;
+      margin-left: 10px;
+    }
+
+    .completion-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .completion-bar {
+      height: 4px;
+      background-color: var(--muted);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .completion-progress {
+      height: 100%;
+      background: linear-gradient(to right, var(--primary), #7E69AB);
+    }
+
+    .back-to-dashboard {
+      display: inline-flex;
+      align-items: center;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .back-to-dashboard svg {
+      margin-right: 8px;
+    }
+
+    /* For mobile */
+    @media (max-width: 767px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        z-index: 100;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .mobile-menu-button {
+        display: block;
+      }
+
+      .search-container {
+        width: 160px;
+      }
+
+      .header {
+        padding: 0 16px;
+      }
+
+      .filters {
+        flex-direction: column;
+      }
+    }
+
+    /* CSS for mobile menu button */
+    .mobile-menu-button {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+      margin-right: 8px;
+    }
+
+    @media (max-width: 767px) {
+      .mobile-menu-button {
+        display: block;
+      }
+    }
+
+    /* Scrollbar styling */
+    .feedback-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .feedback-list::-webkit-scrollbar-track {
+      background: var(--card-secondary);
+      border-radius: 3px;
+    }
+
+    .feedback-list::-webkit-scrollbar-thumb {
+      background-color: var(--muted-foreground);
+      border-radius: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <div class="logo"></div>
+          <span class="logo-text">GoFloww</span>
+        </div>
+        <button class="sidebar-collapse-btn" id="sidebarCollapseBtn">
+          <svg class="sidebar-collapse-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="nav-container">
+        <div class="nav-section">
+          <a href="index_1.html" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="hr_feedback.html" class="nav-item active">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Feedback</span>
+          </a>
+          <a href="employee_list.html" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Employees</span>
+          </a>
+          <a href="hr_analytics.html" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            <span>Analytics</span>
+          </a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="nav-section">
+          <a href="#settings" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>
+            </svg>
+            <span>Settings</span>
+          </a>
+          <a href="dashboard-landing.html" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            <span>Switch to Employee</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        HR Dashboard & Analytics Module v1.0
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="mobile-menu-button" id="mobileMenuBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="search-container">
+            <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="search" class="search-input" placeholder="Search employees...">
+          </div>
+        </div>
+        <div class="header-actions">
+          <!-- Theme Toggle Button -->
+          <button class="theme-toggle" id="themeToggle">
+            <svg id="sunIcon" class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg id="moonIcon" class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <div class="dropdown" id="notificationsDropdown">
+            <button class="header-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span class="notification-badge"></span>
+            </button>
+          </div>
+
+          <div class="dropdown" id="userDropdown">
+            <button class="header-button">
+              <div class="avatar">HR</div>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <main class="content">
+        <a href="hr-dashboard.html" class="back-to-dashboard">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Dashboard
+        </a>
+        
+        <div class="page-header">
+          <h1 class="page-title">Employee Feedback Analytics</h1>
+          <p class="page-subtitle">
+            View anonymous feedback and sentiment analysis for each team member.
+          </p>
+        </div>
+
+        <div class="filters">
+          <select class="filter-select" id="departmentFilter">
+            <option value="all">All Departments</option>
+            <option value="design">Design</option>
+            <option value="development">Development</option>
+            <option value="marketing">Marketing</option>
+            <option value="sales">Sales</option>
+            <option value="product">Product</option>
+          </select>
+          <select class="filter-select" id="sentimentFilter">
+            <option value="all">All Sentiments</option>
+            <option value="positive">Positive</option>
+            <option value="neutral">Neutral</option>
+            <option value="negative">Negative</option>
+          </select>
+          <select class="filter-select" id="sortFilter">
+            <option value="name">Sort by Name</option>
+            <option value="rating-high">Highest Rating</option>
+            <option value="rating-low">Lowest Rating</option>
+            <option value="feedback-count">Most Feedback</option>
+          </select>
+        </div>
+
+        <div class="employee-grid" id="employeeGrid">
+          <!-- Top performer Emma Watson -->
+          <div class="employee-card top-performer-card" data-department="design" data-sentiment="positive">
+            <div class="employee-header">
+              <div class="employee-avatar top-performer-avatar">EW</div>
+              <div>
+                <div class="employee-name">Emma Watson <span class="top-performer-badge">Top Performer</span></div>
+                <div class="employee-title">Senior UI Designer</div>
+              </div>
+            </div>
+            
+            <div class="feedback-stats">
+              <div class="stat-item">
+                <span class="stat-value">9.2</span>
+                <span>Avg. Rating</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">15</span>
+                <span>Feedback Count</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">92%</span>
+                <span>Positive</span>
+              </div>
+            </div>
+            
+            <div class="sentiment-bar">
+              <div class="sentiment-positive" style="width: 92%"></div>
+              <div class="sentiment-neutral" style="width: 6%"></div>
+              <div class="sentiment-negative" style="width: 2%"></div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-bar" style="left: 0%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 10%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 20%; height: 100%; width: 8%"></div>
+              <div class="chart-bar" style="left: 30%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 40%; height: 95%; width: 8%"></div>
+              <div class="chart-bar" style="left: 50%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 60%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 70%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 80%; height: 95%; width: 8%"></div>
+              <div class="chart-bar" style="left: 90%; height: 100%; width: 8%"></div>
+            </div>
+
+            <div class="completion-grid">
+              <div>
+                <small>Projects</small>
+                <div class="completion-bar">
+                  <div class="completion-progress" style="width: 95%"></div>
+                </div>
+              </div>
+              <div>
+                <small>Tasks</small>
+                <div class="completion-bar">
+                  <div class="completion-progress" style="width: 98%"></div>
+                </div>
+              </div>
+              <div>
+                <small>Deadlines</small>
+                <div class="completion-bar">
+                  <div class="completion-progress" style="width: 92%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="feedback-list">
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">9</span>
+                <span class="feedback-text">"Exceptional design skills and always delivers ahead of schedule."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">10</span>
+                <span class="feedback-text">"Great collaborator who listens to feedback and improves designs accordingly."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">9</span>
+                <span class="feedback-text">"Innovative approach to UI challenges. A true asset to the team."</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top performer Mark Johnson -->
+          <div class="employee-card top-performer-card" data-department="development" data-sentiment="positive">
+            <div class="employee-header">
+              <div class="employee-avatar top-performer-avatar">MJ</div>
+              <div>
+                <div class="employee-name">Mark Johnson <span class="top-performer-badge">Top Performer</span></div>
+                <div class="employee-title">Senior Developer</div>
+              </div>
+            </div>
+            
+            <div class="feedback-stats">
+              <div class="stat-item">
+                <span class="stat-value">8.9</span>
+                <span>Avg. Rating</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">12</span>
+                <span>Feedback Count</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">88%</span>
+                <span>Positive</span>
+              </div>
+            </div>
+            
+            <div class="sentiment-bar">
+              <div class="sentiment-positive" style="width: 88%"></div>
+              <div class="sentiment-neutral" style="width: 10%"></div>
+              <div class="sentiment-negative" style="width: 2%"></div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-bar" style="left: 0%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 10%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 20%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 30%; height: 95%; width: 8%"></div>
+              <div class="chart-bar" style="left: 40%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 50%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 60%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 70%; height: 95%; width: 8%"></div>
+              <div class="chart-bar" style="left: 80%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 90%; height: 95%; width: 8%"></div>
+            </div>
+
+            <div class="completion-grid">
+              <div>
+                <small>Projects</small>
+                <div class="completion-bar">
+                  <div class="completion-progress" style="width: 94%"></div>
+                </div>
+              </div>
+              <div>
+                <small>Tasks</small>
+                <div class="completion-bar">
+                  <div class="completion-progress" style="width: 96%"></div>
+                </div>
+              </div>
+              <div>
+                <small>Deadlines</small>
+                <div class="completion-bar">
+                  <div class="completion-progress" style="width: 90%"></div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="feedback-list">
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">9</span>
+                <span class="feedback-text">"Exceptional problem solver who can tackle any technical challenge."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">9</span>
+                <span class="feedback-text">"Great mentor to junior devs. Always makes time to help others."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-medium">7</span>
+                <span class="feedback-text">"Excellent code quality but documentation could be improved."</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sarah Lee -->
+          <div class="employee-card" data-department="marketing" data-sentiment="positive">
+            <div class="employee-header">
+              <div class="employee-avatar">SL</div>
+              <div>
+                <div class="employee-name">Sarah Lee</div>
+                <div class="employee-title">Marketing Manager</div>
+              </div>
+            </div>
+            
+            <div class="feedback-stats">
+              <div class="stat-item">
+                <span class="stat-value">8.1</span>
+                <span>Avg. Rating</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">9</span>
+                <span>Feedback Count</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">78%</span>
+                <span>Positive</span>
+              </div>
+            </div>
+            
+            <div class="sentiment-bar">
+              <div class="sentiment-positive" style="width: 78%"></div>
+              <div class="sentiment-neutral" style="width: 15%"></div>
+              <div class="sentiment-negative" style="width: 7%"></div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-bar" style="left: 0%; height: 75%; width: 8%"></div>
+              <div class="chart-bar" style="left: 10%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 20%; height: 70%; width: 8%"></div>
+              <div class="chart-bar" style="left: 30%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 40%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 50%; height: 75%; width: 8%"></div>
+              <div class="chart-bar" style="left: 60%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 70%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 80%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 90%; height: 85%; width: 8%"></div>
+            </div>
+            
+            <div class="feedback-list">
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">8</span>
+                <span class="feedback-text">"Creative campaign ideas that consistently deliver results."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-medium">6</span>
+                <span class="feedback-text">"Sometimes communication could be more frequent on project updates."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">9</span>
+                <span class="feedback-text">"Great at managing team resources efficiently."</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- David Chen -->
+          <div class="employee-card" data-department="sales" data-sentiment="neutral">
+            <div class="employee-header">
+              <div class="employee-avatar">DC</div>
+              <div>
+                <div class="employee-name">David Chen</div>
+                <div class="employee-title">Sales Representative</div>
+              </div>
+            </div>
+            
+            <div class="feedback-stats">
+              <div class="stat-item">
+                <span class="stat-value">7.4</span>
+                <span>Avg. Rating</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">7</span>
+                <span>Feedback Count</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">62%</span>
+                <span>Positive</span>
+              </div>
+            </div>
+            
+            <div class="sentiment-bar">
+              <div class="sentiment-positive" style="width: 62%"></div>
+              <div class="sentiment-neutral" style="width: 28%"></div>
+              <div class="sentiment-negative" style="width: 10%"></div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-bar" style="left: 0%; height: 60%; width: 8%"></div>
+              <div class="chart-bar" style="left: 10%; height: 65%; width: 8%"></div>
+              <div class="chart-bar" style="left: 20%; height: 70%; width: 8%"></div>
+              <div class="chart-bar" style="left: 30%; height: 75%; width: 8%"></div>
+              <div class="chart-bar" style="left: 40%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 50%; height: 70%; width: 8%"></div>
+              <div class="chart-bar" style="left: 60%; height: 75%; width: 8%"></div>
+              <div class="chart-bar" style="left: 70%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 80%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 90%; height: 80%; width: 8%"></div>
+            </div>
+            
+            <div class="feedback-list">
+              <div class="feedback-item">
+                <span class="feedback-rating rating-medium">7</span>
+                <span class="feedback-text">"Good at closing deals but could improve follow-up communication."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-medium">6</span>
+                <span class="feedback-text">"Meets targets consistently but struggles with new product offerings."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">8</span>
+                <span class="feedback-text">"Has improved significantly in customer relationship management."</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Alex Rivera -->
+          <div class="employee-card" data-department="product" data-sentiment="positive">
+            <div class="employee-header">
+              <div class="employee-avatar">AR</div>
+              <div>
+                <div class="employee-name">Alex Rivera</div>
+                <div class="employee-title">Product Manager</div>
+              </div>
+            </div>
+            
+            <div class="feedback-stats">
+              <div class="stat-item">
+                <span class="stat-value">8.3</span>
+                <span>Avg. Rating</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">8</span>
+                <span>Feedback Count</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">85%</span>
+                <span>Positive</span>
+              </div>
+            </div>
+            
+            <div class="sentiment-bar">
+              <div class="sentiment-positive" style="width: 85%"></div>
+              <div class="sentiment-neutral" style="width: 10%"></div>
+              <div class="sentiment-negative" style="width: 5%"></div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-bar" style="left: 0%; height: 75%; width: 8%"></div>
+              <div class="chart-bar" style="left: 10%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 20%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 30%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 40%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 50%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 60%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 70%; height: 90%; width: 8%"></div>
+              <div class="chart-bar" style="left: 80%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 90%; height: 80%; width: 8%"></div>
+            </div>
+            
+            <div class="feedback-list">
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">9</span>
+                <span class="feedback-text">"Great at balancing stakeholder needs and technical constraints."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">8</span>
+                <span class="feedback-text">"Solid product vision and execution strategy."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-medium">7</span>
+                <span class="feedback-text">"Sometimes prioritizes new features over fixing existing issues."</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Jamie Smith -->
+          <div class="employee-card" data-department="development" data-sentiment="neutral">
+            <div class="employee-header">
+              <div class="employee-avatar">JS</div>
+              <div>
+                <div class="employee-name">Jamie Smith</div>
+                <div class="employee-title">Frontend Developer</div>
+              </div>
+            </div>
+            
+            <div class="feedback-stats">
+              <div class="stat-item">
+                <span class="stat-value">7.8</span>
+                <span>Avg. Rating</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">6</span>
+                <span>Feedback Count</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value">70%</span>
+                <span>Positive</span>
+              </div>
+            </div>
+            
+            <div class="sentiment-bar">
+              <div class="sentiment-positive" style="width: 70%"></div>
+              <div class="sentiment-neutral" style="width: 20%"></div>
+              <div class="sentiment-negative" style="width: 10%"></div>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-bar" style="left: 0%; height: 65%; width: 8%"></div>
+              <div class="chart-bar" style="left: 10%; height: 70%; width: 8%"></div>
+              <div class="chart-bar" style="left: 20%; height: 75%; width: 8%"></div>
+              <div class="chart-bar" style="left: 30%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 40%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 50%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 60%; height: 75%; width: 8%"></div>
+              <div class="chart-bar" style="left: 70%; height: 80%; width: 8%"></div>
+              <div class="chart-bar" style="left: 80%; height: 85%; width: 8%"></div>
+              <div class="chart-bar" style="left: 90%; height: 80%; width: 8%"></div>
+            </div>
+            
+            <div class="feedback-list">
+              <div class="feedback-item">
+                <span class="feedback-rating rating-high">8</span>
+                <span class="feedback-text">"Creates clean, maintainable frontend code."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-medium">7</span>
+                <span class="feedback-text">"Good technical skills but sometimes misses edge cases in testing."</span>
+              </div>
+              <div class="feedback-item">
+                <span class="feedback-rating rating-medium">6</span>
+                <span class="feedback-text">"Could be more proactive in team discussions."</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for the feedback analytics page
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sidebar functionality
+      const sidebar = document.getElementById('sidebar');
+      const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
+      const sidebarCollapseIcon = sidebarCollapseBtn.querySelector('.sidebar-collapse-icon');
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+      sidebarCollapseBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-collapsed');
+        sidebarCollapseIcon.classList.toggle('rotate-180');
+      });
+
+      mobileMenuBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+      });
+
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('themeToggle');
+      const sunIcon = document.getElementById('sunIcon');
+      const moonIcon = document.getElementById('moonIcon');
+      const htmlElement = document.documentElement;
+      
+      // Set initial theme based on localStorage or default
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        htmlElement.className = savedTheme;
+        updateThemeIcons(savedTheme);
+      } else {
+        // Default to dark theme
+        htmlElement.className = 'dark';
+        updateThemeIcons('dark');
+      }
+      
+      function updateThemeIcons(theme) {
+        if (theme === 'light') {
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        } else {
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        }
+      }
+      
+      themeToggle.addEventListener('click', function() {
+        if (htmlElement.classList.contains('dark')) {
+          htmlElement.className = 'light';
+          localStorage.setItem('theme', 'light');
+          updateThemeIcons('light');
+        } else {
+          htmlElement.className = 'dark';
+          localStorage.setItem('theme', 'dark');
+          updateThemeIcons('dark');
+        }
+      });
+
+      // Filter functionality
+      const departmentFilter = document.getElementById('departmentFilter');
+      const sentimentFilter = document.getElementById('sentimentFilter');
+      const sortFilter = document.getElementById('sortFilter');
+      const employeeGrid = document.getElementById('employeeGrid');
+      const employees = document.querySelectorAll('.employee-card');
+
+      function applyFilters() {
+        const departmentValue = departmentFilter.value;
+        const sentimentValue = sentimentFilter.value;
+        const sortValue = sortFilter.value;
+
+        // Hide all employees first
+        employees.forEach(employee => {
+          let showEmployee = true;
+
+          // Filter by department
+          if (departmentValue !== 'all' && employee.getAttribute('data-department') !== departmentValue) {
+            showEmployee = false;
+          }
+
+          // Filter by sentiment
+          if (sentimentValue !== 'all' && employee.getAttribute('data-sentiment') !== sentimentValue) {
+            showEmployee = false;
+          }
+
+          // Show or hide based on filters
+          if (showEmployee) {
+            employee.style.display = 'block';
+          } else {
+            employee.style.display = 'none';
+          }
+        });
+
+        // Sort employees
+        const employeeArray = Array.from(employees).filter(employee => employee.style.display !== 'none');
+        
+        switch (sortValue) {
+          case 'name':
+            employeeArray.sort((a, b) => {
+              const nameA = a.querySelector('.employee-name').textContent.trim();
+              const nameB = b.querySelector('.employee-name').textContent.trim();
+              return nameA.localeCompare(nameB);
+            });
+            break;
+          case 'rating-high':
+            employeeArray.sort((a, b) => {
+              const ratingA = parseFloat(a.querySelector('.stat-value').textContent);
+              const ratingB = parseFloat(b.querySelector('.stat-value').textContent);
+              return ratingB - ratingA;
+            });
+            break;
+          case 'rating-low':
+            employeeArray.sort((a, b) => {
+              const ratingA = parseFloat(a.querySelector('.stat-value').textContent);
+              const ratingB = parseFloat(b.querySelector('.stat-value').textContent);
+              return ratingA - ratingB;
+            });
+            break;
+          case 'feedback-count':
+            employeeArray.sort((a, b) => {
+              const countA = parseInt(a.querySelectorAll('.stat-value')[1].textContent);
+              const countB = parseInt(b.querySelectorAll('.stat-value')[1].textContent);
+              return countB - countA;
+            });
+            break;
+        }
+
+        // Re-append sorted employees
+        employeeGrid.innerHTML = '';
+        employeeArray.forEach(employee => {
+          employeeGrid.appendChild(employee);
+        });
+      }
+
+      departmentFilter.addEventListener('change', applyFilters);
+      sentimentFilter.addEventListener('change', applyFilters);
+      sortFilter.addEventListener('change', applyFilters);
+
+      // Initialize filters
+      applyFilters();
+
+      // Search functionality
+      const searchInput = document.querySelector('.search-input');
+      
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        
+        employees.forEach(employee => {
+          const name = employee.querySelector('.employee-name').textContent.toLowerCase();
+          const title = employee.querySelector('.employee-title').textContent.toLowerCase();
+          const feedbackItems = employee.querySelectorAll('.feedback-text');
+          
+          let matchesSearch = name.includes(searchTerm) || title.includes(searchTerm);
+          
+          // Also search in feedback texts
+          if (!matchesSearch) {
+            feedbackItems.forEach(item => {
+              if (item.textContent.toLowerCase().includes(searchTerm)) {
+                matchesSearch = true;
+              }
+            });
+          }
+          
+          if (matchesSearch) {
+            employee.dataset.searchMatch = 'true';
+          } else {
+            employee.dataset.searchMatch = 'false';
+          }
+        });
+        
+        // Re-apply all filters and search
+        applyFilters();
+        
+        // Additional filter for search after the regular filters
+        employees.forEach(employee => {
+          if (employee.style.display !== 'none' && employee.dataset.searchMatch === 'false') {
+            employee.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -57,8 +57,18 @@ app.listen(port, () => {
 })
 
 
-const Prediction = mongoose.model('Prediction', {
-  input: Array,
-  output: Array,
+// const Prediction = mongoose.model('Prediction', {
+//   input: Array,
+//   output: Array,
+// });
+
+app.get('/users_2', async (req, res) => {
+  try {
+    const users = await User.find({}, { name: 1, _id: 0 });
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
 });
 
