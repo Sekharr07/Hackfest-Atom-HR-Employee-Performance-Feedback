@@ -15,37 +15,21 @@ mongoose.connect('mongodb://127.0.0.1:27017/myappdb', {
 
 const port = 3000
 
-const user_1={
-  body:{
-    name:"Rio",
-    email:"rajarsee5@gmail.com",
-    password:"randrio@2005"
-  }
-}
+app.use(express.static(path.join(__dirname, 'login_sign_page')));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login_sign_page/index.html'));
-})
-
-app.post('/testserver',async(req,res)=>{
-  const user_1={
-    body:{
-      name:"Rio",
-      email:"rajarsee5@gmail.com",
-      password:"randrio@2005"
-    }
-  }
+app.post('/login',async(req,res)=>{
+  const {email,password}=req.body;
   try{
-    const user = new User(user_1.body);
-    await user.save();
-    res.status(201).json(user);
-  }
-  catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-})
-
-
+    const user = await User.findOne({email});
+    if (!user) return res.status(400).json({ message: 'User not found' });
+    if (user.password !== password) {
+      return res.status(400).json({ message: 'Incorrect password' });
+    }
+    res.status(200).json({ message: 'Login successful', user });
+  }catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  } 
+});
 
 app.post('/users', async (req, res) => {
   try {

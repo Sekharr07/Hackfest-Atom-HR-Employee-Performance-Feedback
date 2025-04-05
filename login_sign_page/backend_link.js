@@ -1,17 +1,3 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-
-// ✅ Serve static files from your project root
-app.use(express.static(path.join(__dirname, 'login_sign_page')));
-
-// Example route (optional)
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'login_sign_page', 'index.html'));
-});
-
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 
 
 
@@ -74,7 +60,7 @@ showLogin.addEventListener('click', (e) => {
 });
 
 // Form submission handling
-loginForm.addEventListener('submit', (e) => {
+loginForm.addEventListener('submit', async(e) => {
   e.preventDefault();
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value.trim();
@@ -111,6 +97,20 @@ loginForm.addEventListener('submit', (e) => {
     loginError.style.display = 'block';
     loginSuccess.style.display = 'none';
   }
+
+   const userData={
+    email: email,
+    password:password
+  }
+  try {
+    const res = await fetch('http://localhost:3000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+    });
+    } catch (err) {
+     console.error('Fetch error:', err);
+    }
 
 
 });
@@ -169,9 +169,6 @@ signupForm.addEventListener('submit', async(e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData)
     });
-
-    const result = await res.json();
-    console.log(result);
     } catch (err) {
      console.error('Fetch error:', err);
     }
