@@ -1,0 +1,1540 @@
+Indian Institute of Technology (Indian School of Mines), Dhanbad Mail	Rajarsee Chakraborty <24je0568@iitism.ac.in>
+employee list page
+Sayan Sekhar Ghosh <sayansekharghosh2005@gmail.com>	Sat, Apr 5, 2025 at 5:35 PM
+To: "24je0568@iitism.ac.in" <24je0568@iitism.ac.in>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoFloww HR - Employees List</title>
+  <meta name="description" content="Employees List for GoFloww's Atom HR platform" />
+  
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:title" content="GoFloww HR - Employees List" />
+  <meta property="og:description" content="Employees List for GoFloww's Atom HR platform" />
+  <meta property="og:type" content="website" />
+  
+  <style>
+    /* CSS Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Theme Variables */
+    :root {
+      /* Light Theme */
+      --background-light: #F8FAFC;
+      --foreground-light: #1A1F2C;
+      --card-light: #FFFFFF;
+      --card-foreground-light: #1A1F2C;
+      --card-secondary-light: #F1F5F9;
+      --primary-light: #9b87f5;
+      --primary-foreground-light: #FFFFFF;
+      --secondary-light: #5CB9AA;
+      --secondary-foreground-light: #1A1F2C;
+      --muted-light: #F1F5F9;
+      --muted-foreground-light: #64748B;
+      --accent-light: #F8FAFC;
+      --accent-foreground-light: #1A1F2C;
+      --destructive-light: #E53E3E;
+      --destructive-foreground-light: #F8FAFC;
+      --border-light: #E2E8F0;
+      --input-light: #E2E8F0;
+      --ring-light: #9b87f5;
+      --sidebar-light: #FFFFFF;
+      
+      /* Dark Theme */
+      --background: #1A1F2C;
+      --foreground: #F8FAFC;
+      --card: #222232;
+      --card-foreground: #F8FAFC;
+      --card-secondary: #2d2d40;
+      --primary: #9b87f5;
+      --primary-foreground: #FFFFFF;
+      --secondary: #5CB9AA;
+      --secondary-foreground: #1A1F2C;
+      --muted: #333A47;
+      --muted-foreground: #A0AEC0;
+      --accent: #413c73;
+      --accent-foreground: #F8FAFC;
+      --destructive: #E53E3E;
+      --destructive-foreground: #F8FAFC;
+      --border: #333A47;
+      --input: #333A47;
+      --ring: #9b87f5;
+      --sidebar: #16191F;
+      --radius: 8px;
+      --transition: 0.3s ease;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --emerald: #10B981;
+      --red: #EF4444;
+      --blue: #3B82F6;
+      --amber: #F59E0B;
+    }
+
+    /* Theme Application */
+    html.light {
+      --background: var(--background-light);
+      --foreground: var(--foreground-light);
+      --card: var(--card-light);
+      --card-foreground: var(--card-foreground-light);
+      --card-secondary: var(--card-secondary-light);
+      --primary: var(--primary-light);
+      --primary-foreground: var(--primary-foreground-light);
+      --secondary: var(--secondary-light);
+      --secondary-foreground: var(--secondary-foreground-light);
+      --muted: var(--muted-light);
+      --muted-foreground: var(--muted-foreground-light);
+      --accent: var(--accent-light);
+      --accent-foreground: var(--accent-foreground-light);
+      --destructive: var(--destructive-light);
+      --destructive-foreground: var(--destructive-foreground-light);
+      --border: var(--border-light);
+      --input: var(--input-light);
+      --ring: var(--ring-light);
+      --sidebar: var(--sidebar-light);
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Layout */
+    .main-container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: var(--sidebar);
+      border-right: 1px solid var(--border);
+      width: 240px;
+      height: 100%;
+      transition: width var(--transition);
+      overflow: hidden;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+
+    .sidebar-collapsed {
+      width: 60px;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(to right, var(--primary), #7E69AB);
+      border-radius: 6px;
+    }
+
+    .logo-text {
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .sidebar-collapse-btn {
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border-radius: 4px;
+      transition: background-color var(--transition);
+    }
+
+    .sidebar-collapse-btn:hover {
+      background-color: var(--muted);
+    }
+
+    .sidebar-collapse-icon {
+      transition: transform var(--transition);
+    }
+
+    .rotate-180 {
+      transform: rotate(180deg);
+    }
+
+    .nav-container {
+      padding: 16px 12px;
+      overflow-y: auto;
+      height: calc(100% - 64px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-section {
+      margin-bottom: 16px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      margin: 4px 0;
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--muted-foreground);
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    .nav-item:hover {
+      background-color: var(--muted);
+      color: var(--foreground);
+    }
+
+    .nav-item.active {
+      background-color: var(--accent);
+      color: var(--accent-foreground);
+    }
+
+    .nav-icon {
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .sidebar-collapsed .nav-icon {
+      margin-right: 0;
+    }
+
+    .sidebar-footer {
+      padding: 16px;
+      font-size: 12px;
+      border-top: 1px solid var(--border);
+      color: var(--muted-foreground);
+    }
+
+    .divider {
+      height: 1px;
+      background-color: var(--border);
+      margin: 16px 0;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background-color: var(--background);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(8px);
+    }
+
+    .search-container {
+      position: relative;
+      width: 240px;
+    }
+
+    .search-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: var(--muted-foreground);
+      width: 16px;
+      height: 16px;
+    }
+
+    .search-input {
+      background-color: var(--muted);
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 8px 8px 32px;
+      width: 100%;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-button {
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color var(--transition);
+      position: relative;
+    }
+
+    .header-button:hover {
+      background-color: var(--muted);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 8px;
+      height: 8px;
+      background-color: var(--destructive);
+      border-radius: 50%;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* Dashboard Content */
+    .dashboard {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+      background: linear-gradient(to bottom, var(--background), var(--card));
+    }
+
+    .dashboard-header {
+      margin-bottom: 32px;
+    }
+
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      background: linear-gradient(to right, var(--primary), #7E69AB);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .dashboard-subtitle {
+      color: var(--muted-foreground);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 768px) {
+      .main-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    @media (min-width: 768px) {
+      .bottom-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .stat-card {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-card-purple {
+      border-left-color: var(--primary);
+      background: linear-gradient(to bottom right, var(--card), rgba(65, 60, 115, 0.2));
+    }
+
+    .stat-card-green {
+      border-left-color: var(--emerald);
+      background: linear-gradient(to bottom right, var(--card), rgba(16, 185, 129, 0.2));
+    }
+
+    .stat-card-blue {
+      border-left-color: var(--blue);
+      background: linear-gradient(to bottom right, var(--card), rgba(59, 130, 246, 0.2));
+    }
+
+    .stat-card-amber {
+      border-left-color: var(--amber);
+      background: linear-gradient(to bottom right, var(--card), rgba(245, 158, 11, 0.2));
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .stat-title {
+      font-size: 14px;
+      color: var(--muted-foreground);
+      font-weight: 500;
+    }
+
+    .stat-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--muted-foreground);
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-desc {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      font-size: 12px;
+    }
+
+    .trend-up {
+      color: var(--emerald);
+    }
+
+    .trend-down {
+      color: var(--destructive);
+    }
+
+    .trend-neutral {
+      color: var(--muted-foreground);
+    }
+
+    .card {
+      background-color: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .card-icon {
+      width: 16px;
+      height: 16px;
+      color: var(--muted-foreground);
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      background-color: var(--muted);
+      border-radius: 9999px;
+      height: 8px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 9999px;
+      background-color: var(--primary);
+      transition: width 1s ease-in-out;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    /* Employees List */
+    .employees-list {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+
+    .employee-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: background-color var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .employee-item:last-child {
+      border-bottom: none;
+    }
+
+    .employee-item:hover {
+      background-color: var(--card-secondary);
+    }
+
+    .employee-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .employee-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .employee-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .employee-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .employee-position {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    .employee-metadata {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .employee-date {
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .employee-tasks {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    .employee-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-button {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    .action-button:hover {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    /* Tasks List */
+    .tasks-list {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+    }
+
+    .task-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      transition: background-color var(--transition);
+    }
+
+    .task-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-item:hover {
+      background-color: var(--card-secondary);
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .task-title {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .task-assignee {
+      font-size: 12px;
+      color: var(--muted-foreground);
+    }
+
+    .task-due-date {
+      font-size: 12px;
+      color: var(--primary);
+    }
+
+    .task-status {
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-size: 10px;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    .status-pending {
+      background-color: var(--amber);
+      color: var(--accent-foreground);
+    }
+
+    .status-in-progress {
+      background-color: var(--blue);
+      color: var(--accent-foreground);
+    }
+
+    .status-completed {
+      background-color: var(--emerald);
+      color: var(--accent-foreground);
+    }
+
+    .task-action {
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color var(--transition), color var(--transition);
+      margin-top: 4px;
+    }
+
+    .task-action:hover {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filter-item {
+      background-color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color var(--transition);
+      color: var(--muted-foreground);
+    }
+
+    .filter-item:hover, .filter-item.active {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border-color: var(--primary);
+    }
+
+    /* View all button */
+    .view-all-btn {
+      display: block;
+      width: 100%;
+      padding: 8px;
+      text-align: center;
+      background-color: transparent;
+      color: var(--foreground);
+      border: none;
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+      transition: background-color var(--transition);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .view-all-btn:hover {
+      background-color: var(--muted);
+    }
+
+    /* For mobile */
+    @media (max-width: 767px) {
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        z-index: 100;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .mobile-menu-button {
+        display: block;
+      }
+
+      .search-container {
+        width: 160px;
+      }
+
+      .header {
+        padding: 0 16px;
+      }
+    }
+
+    /* CSS for mobile menu button */
+    .mobile-menu-button {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+      margin-right: 8px;
+    }
+
+    @media (max-width: 767px) {
+      .mobile-menu-button {
+        display: block;
+      }
+    }
+
+    /* HR-specific styles */
+    .action-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      border: none;
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      margin-right: 8px;
+      transition: background-color var(--transition);
+    }
+
+    .action-btn:hover {
+      background-color: #7E69AB;
+    }
+
+    .action-btn-secondary {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--foreground);
+    }
+
+    .action-btn-secondary:hover {
+      background-color: var(--muted);
+    }
+
+    /* Dropdown menus */
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      width: 240px;
+      box-shadow: var(--shadow-lg);
+      z-index: 50;
+      display: none;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    .dropdown-header {
+      padding: 12px 16px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dropdown-item {
+      padding: 12px 16px;
+      display: block;
+      text-decoration: none;
+      color: var(--foreground);
+      transition: background-color var(--transition);
+    }
+
+    .dropdown-item:hover {
+      background-color: var(--accent);
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background-color: var(--border);
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      color: var(--foreground);
+      cursor: pointer;
+      transition: background-color var(--transition);
+    }
+
+    .theme-toggle:hover {
+      background-color: var(--muted);
+    }
+
+    /* Back to dashboard button */
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background-color: transparent;
+      color: var(--foreground);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color var(--transition);
+      margin-bottom: 16px;
+    }
+
+    .back-btn:hover {
+      background-color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <div class="logo"></div>
+          <span class="logo-text">GoFloww</span>
+        </div>
+        <button class="sidebar-collapse-btn" id="sidebarCollapseBtn">
+          <svg class="sidebar-collapse-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 18l-6-6 6-6"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="nav-container">
+        <div class="nav-section">
+          <a href="hr-dashboard.html" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </a>
+          <a href="employees-list.html" class="nav-item active">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Employees</span>
+          </a>
+          <a href="#tasks" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            <span>Tasks</span>
+          </a>
+          <a href="#feedback" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Feedback</span>
+          </a>
+          <a href="#reviews" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <span>Reviews</span>
+          </a>
+          <a href="hr-analytics.html" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+            <span>Analytics</span>
+          </a>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="nav-section">
+          <a href="#settings" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>
+            </svg>
+            <span>Settings</span>
+          </a>
+          <a href="dashboard-landing.html" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            <span>Switch to Employee</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        HR Administrator Dashboard v1.0
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="mobile-menu-button" id="mobileMenuBtn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="search-container">
+            <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="search" class="search-input" placeholder="Search employees...">
+          </div>
+        </div>
+        <div class="header-actions">
+          <!-- Theme Toggle Button -->
+          <button class="theme-toggle" id="themeToggle">
+            <svg id="sunIcon" class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <svg id="moonIcon" class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <div class="dropdown" id="notificationsDropdown">
+            <button class="header-button">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span class="notification-badge"></span>
+            </button>
+            <div class="dropdown-menu" id="notificationsMenu">
+              <div class="dropdown-header">Notifications</div>
+              <div class="notification-item">
+                <div class="notification-avatar">TS</div>
+                <div class="notification-content">
+                  <div class="notification-title">Team Status</div>
+                  <div class="notification-text">3 employees completed their performance reviews.</div>
+                  <div class="notification-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="notification-item">
+                <div class="notification-avatar">AT</div>
+                <div class="notification-content">
+                  <div class="notification-title">Assignment Updates</div>
+                  <div class="notification-text">New task assignments require approval.</div>
+                  <div class="notification-time">3 hours ago</div>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item">View all</a>
+            </div>
+          </div>
+
+          <div class="dropdown" id="userDropdown">
+            <button class="header-button">
+              <div class="avatar">HR</div>
+            </button>
+            <div class="dropdown-menu" id="userMenu">
+              <div class="dropdown-header">My Account</div>
+              <a href="#" class="dropdown-item">Profile</a>
+              <a href="#" class="dropdown-item">Settings</a>
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item" id="logoutBtn">Log out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Employees List Content -->
+      <main class="dashboard">
+        <button class="back-btn" onclick="window.location.href='hr-dashboard.html'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5"></path>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Back to Dashboard
+        </button>
+
+        <div class="dashboard-header">
+          <h1 class="dashboard-title">Employees List</h1>
+          <p class="dashboard-subtitle">View and manage all employees and their information.</p>
+          <div style="margin-top: 16px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="action-btn" onclick="window.location.href='add-employee.html'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Add Employee
+            </button>
+            <button class="action-btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Export List
+            </button>
+          </div>
+        </div>
+
+        <div class="filters">
+          <div class="filter-item active">All Employees</div>
+          <div class="filter-item">Development</div>
+          <div class="filter-item">Marketing</div>
+          <div class="filter-item">Sales</div>
+          <div class="filter-item">HR</div>
+          <div class="filter-item">Finance</div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card stat-card-purple">
+            <div class="stat-header">
+              <div class="stat-title">Total Employees</div>
+              <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="stat-value">42</div>
+            <div class="stat-desc">Active team members</div>
+          </div>
+
+          <div class="stat-card stat-card-green">
+            <div class="stat-header">
+              <div class="stat-title">New This Month</div>
+              <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <line x1="19" y1="8" x2="19" y2="14"></line>
+                <line x1="16" y1="11" x2="22" y2="11"></line>
+              </svg>
+            </div>
+            <div class="stat-value">3</div>
+            <div class="stat-desc">Recently onboarded</div>
+          </div>
+
+          <div class="stat-card stat-card-blue">
+            <div class="stat-header">
+              <div class="stat-title">Average Tenure</div>
+              <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+            </div>
+            <div class="stat-value">2.4</div>
+            <div class="stat-desc">Years with company</div>
+          </div>
+
+          <div class="stat-card stat-card-amber">
+            <div class="stat-header">
+              <div class="stat-title">Open Positions</div>
+              <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+            </div>
+            <div class="stat-value">5</div>
+            <div class="stat-desc">Positions to fill</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Employee Directory</div>
+            <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <div class="card-content" style="padding: 0;">
+            <ul class="employees-list" id="employeesList">
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">JD</div>
+                  <div class="employee-details">
+                    <div class="employee-name">John Doe</div>
+                    <div class="employee-position">Senior Developer</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: May 15, 2022</div>
+                  <div class="employee-tasks">12 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">EW</div>
+                  <div class="employee-details">
+                    <div class="employee-name">Emma Watson</div>
+                    <div class="employee-position">Project Manager</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: Jan 10, 2021</div>
+                  <div class="employee-tasks">28 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">MJ</div>
+                  <div class="employee-details">
+                    <div class="employee-name">Mark Johnson</div>
+                    <div class="employee-position">UI/UX Designer</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: Nov 5, 2022</div>
+                  <div class="employee-tasks">9 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">SL</div>
+                  <div class="employee-details">
+                    <div class="employee-name">Sarah Lee</div>
+                    <div class="employee-position">Marketing Specialist</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: Mar 22, 2023</div>
+                  <div class="employee-tasks">15 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">DP</div>
+                  <div class="employee-details">
+                    <div class="employee-name">David Park</div>
+                    <div class="employee-position">Backend Developer</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: Jul 14, 2021</div>
+                  <div class="employee-tasks">18 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">AM</div>
+                  <div class="employee-details">
+                    <div class="employee-name">Amy Miller</div>
+                    <div class="employee-position">Sales Executive</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: Feb 3, 2020</div>
+                  <div class="employee-tasks">32 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">RB</div>
+                  <div class="employee-details">
+                    <div class="employee-name">Robert Brown</div>
+                    <div class="employee-position">Content Writer</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: Sep 18, 2022</div>
+                  <div class="employee-tasks">21 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+              <li class="employee-item">
+                <div class="employee-info">
+                  <div class="employee-avatar">KT</div>
+                  <div class="employee-details">
+                    <div class="employee-name">Kevin Thompson</div>
+                    <div class="employee-position">Product Manager</div>
+                  </div>
+                </div>
+                <div class="employee-metadata">
+                  <div class="employee-date">Joined: Oct 5, 2021</div>
+                  <div class="employee-tasks">25 Tasks Completed</div>
+                </div>
+                <div class="employee-actions">
+                  <button class="action-button">View Profile</button>
+                  <button class="action-button">Review</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript for the dashboard functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Sidebar collapse functionality
+      const sidebar = document.getElementById('sidebar');
+      const sidebarCollapseBtn = document.getElementById('sidebarCollapseBtn');
+      const sidebarCollapseIcon = sidebarCollapseBtn.querySelector('.sidebar-collapse-icon');
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+
+      sidebarCollapseBtn.addEventListener('click', function() {
+        sidebar.classList.toggle('sidebar-collapsed');
+        sidebarCollapseIcon.classList.toggle('rotate-180');
+      });
+
+      if (mobileMenuBtn) {
+        mobileMenuBtn.addEventListener('click', function() {
+          sidebar.classList.toggle('open');
+        });
+      }
+
+      // Theme toggle functionality
+      const themeToggle = document.getElementById('themeToggle');
+      const sunIcon = document.getElementById('sunIcon');
+      const moonIcon = document.getElementById('moonIcon');
+      const htmlElement = document.documentElement;
+      
+      // Set initial theme based on localStorage or default to dark
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        htmlElement.className = savedTheme;
+        updateThemeIcons(savedTheme);
+      } else {
+        // Default to dark theme
+        htmlElement.className = 'dark';
+        updateThemeIcons('dark');
+      }
+      
+      function updateThemeIcons(theme) {
+        if (theme === 'light') {
+          sunIcon.style.display = 'none';
+          moonIcon.style.display = 'block';
+        } else {
+          sunIcon.style.display = 'block';
+          moonIcon.style.display = 'none';
+        }
+      }
+      
+      themeToggle.addEventListener('click', function() {
+        if (htmlElement.classList.contains('dark')) {
+          htmlElement.className = 'light';
+          localStorage.setItem('theme', 'light');
+          updateThemeIcons('light');
+        } else {
+          htmlElement.className = 'dark';
+          localStorage.setItem('theme', 'dark');
+          updateThemeIcons('dark');
+        }
+      });
+
+      // Dropdown menus
+      const notificationsDropdown = document.getElementById('notificationsDropdown');
+      const notificationsMenu = document.getElementById('notificationsMenu');
+      const userDropdown = document.getElementById('userDropdown');
+      const userMenu = document.getElementById('userMenu');
+
+      if (notificationsDropdown) {
+        notificationsDropdown.addEventListener('click', function(e) {
+          e.stopPropagation();
+          notificationsMenu.classList.toggle('show');
+          userMenu.classList.remove('show');
+        });
+      }
+
+      if (userDropdown) {
+        userDropdown.addEventListener('click', function(e) {
+          e.stopPropagation();
+          userMenu.classList.toggle('show');
+          if (notificationsMenu) {
+            notificationsMenu.classList.remove('show');
+          }
+        });
+      }
+
+      document.addEventListener('click', function() {
+        if (notificationsMenu) {
+          notificationsMenu.classList.remove('show');
+        }
+        if (userMenu) {
+          userMenu.classList.remove('show');
+        }
+      });
+
+      // Filter functionality
+      const filterItems = document.querySelectorAll('.filter-item');
+      
+      filterItems.forEach(item => {
+        item.addEventListener('click', function() {
+          filterItems.forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // Display any employees from localStorage if available
+      const searchInput = document.querySelector('.search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase();
+          const employeeItems = document.querySelectorAll('.employee-item');
+          
+          employeeItems.forEach(item => {
+            const name = item.querySelector('.employee-name').textContent.toLowerCase();
+            const position = item.querySelector('.employee-position').textContent.toLowerCase();
+            
+            if (name.includes(searchTerm) || position.includes(searchTerm)) {
+              item.style.display = '';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      }
+
+      // Load employees from localStorage if available
+      const storedEmployees = localStorage.getItem('employees');
+      if (storedEmployees) {
+        try {
+          const employeeData = JSON.parse(storedEmployees);
+          const employeesList = document.getElementById('employeesList');
+          
+          // Only append if we don't already have these employees in the list
+          if (employeeData.length > 0 && employeesList) {
+            // Check if we need to add new employees (skip if DOM already has them)
+            const existingEmployees = employeesList.querySelectorAll('.employee-item');
+            if (employeeData.length > existingEmployees.length) {
+              for (let i = existingEmployees.length; i < employeeData.length; i++) {
+                const emp = employeeData[i];
+                
+                // Create initials for avatar
+                const nameParts = emp.name.split(' ');
+                const initials = nameParts.length > 1 
+                  ? (nameParts[0][0] + nameParts[1][0]).toUpperCase()
+                  : emp.name.substring(0, 2).toUpperCase();
+                
+                const employeeItem = document.createElement('li');
+                employeeItem.className = 'employee-item';
+                employeeItem.innerHTML = `
+                  <div class="employee-info">
+                    <div class="employee-avatar">${initials}</div>
+                    <div class="employee-details">
+                      <div class="employee-name">${emp.name}</div>
+                      <div class="employee-position">${emp.position || 'New Employee'}</div>
+                    </div>
+                  </div>
+                  <div class="employee-metadata">
+                    <div class="employee-date">Joined: ${new Date().toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'})}</div>
+                    <div class="employee-tasks">0 Tasks Completed</div>
+                  </div>
+                  <div class="employee-actions">
+                    <button class="action-button">View Profile</button>
+                    <button class="action-button">Review</button>
+                  </div>
+                `;
+                
+                employeesList.appendChild(employeeItem);
+              }
+            }
+          }
+        } catch (e) {
+          console.error("Error loading employees from localStorage:", e);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
