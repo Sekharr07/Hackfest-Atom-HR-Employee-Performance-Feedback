@@ -24,7 +24,7 @@ const user_1={
 }
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'opening_page/index.html'));
+  res.sendFile(path.join(__dirname, 'login_sign_page/index.html'));
 })
 
 app.post('/testserver',async(req,res)=>{
