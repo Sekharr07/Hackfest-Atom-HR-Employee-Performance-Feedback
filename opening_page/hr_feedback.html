@@ -15,7 +15,22 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       transition: background-color 0.3s, color 0.3s;
     }
+    .logo {
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+}
 
+.sidebar-collapsed .logo {
+    width: 32px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
     /* Theme Variables */
     :root {
       /* Dark Theme */
@@ -85,19 +100,22 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-    }
-
     .logo {
-      width: 24px;
-      height: 24px;
-      background: linear-gradient(to right, var(--primary), #7E69AB);
-      border-radius: 6px;
-    }
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+}
+
+.sidebar-collapsed .logo {
+    width: 32px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
 
     .logo-text {
       font-weight: 600;
@@ -662,9 +680,8 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo-container">
-          <div class="logo"></div>
-          <span class="logo-text">GoFloww</span>
-        </div>
+          <img src="https://blog.gofloww.co/content/images/2024/06/logo.png" alt="GoFloww" class="logo">
+      </div>
         <button class="sidebar-collapse-btn" id="sidebarCollapseBtn">
           <svg class="sidebar-collapse-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
@@ -674,7 +691,7 @@
 
       <div class="nav-container">
         <div class="nav-section">
-          <a href="index_1.html" class="nav-item">
+          <a href="hr_homepage.html" class="nav-item">
             <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="7" height="7"></rect>
               <rect x="14" y="3" width="7" height="7"></rect>
@@ -716,13 +733,7 @@
             </svg>
             <span>Settings</span>
           </a>
-          <a href="dashboard-landing.html" class="nav-item">
-            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-            </svg>
-            <span>Switch to Employee</span>
-          </a>
+         
         </div>
       </div>
 

@@ -135,20 +135,22 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 1;
-    }
-
     .logo {
-      width: 24px;
-      height: 24px;
-      background: linear-gradient(to right, var(--primary), #7E69AB);
-      border-radius: 6px;
-    }
+    width: 120px;
+    height: auto;
+    object-fit: contain;
+}
 
+.sidebar-collapsed .logo {
+    width: 32px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+}
     .logo-text {
       font-weight: 600;
       font-size: 18px;
@@ -969,9 +971,8 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo-container">
-          <div class="logo"></div>
-          <span class="logo-text">GoFloww</span>
-        </div>
+          <img src="https://blog.gofloww.co/content/images/2024/06/logo.png" alt="GoFloww" class="logo">
+      </div>
         <button class="sidebar-collapse-btn" id="sidebarCollapseBtn">
           <svg class="sidebar-collapse-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M15 18l-6-6 6-6"></path>
@@ -999,13 +1000,6 @@
             </svg>
             <span>Employees</span>
           </a>
-          <a href="#tasks" class="nav-item">
-            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 11l3 3L22 4"></path>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-            </svg>
-            <span>Tasks</span>
-          </a>
           <a href="hr_feedback.html" class="nav-item">
             <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
@@ -1030,14 +1024,6 @@
               <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path>
             </svg>
             <span>Settings</span>
-          </a>
-          <a href="dashboard-landing.html" class="nav-item">
-            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
-            <span>Switch to Employee</span>
           </a>
         </div>
       </div>
