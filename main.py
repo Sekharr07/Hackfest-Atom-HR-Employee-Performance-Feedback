@@ -401,3 +401,29 @@ def submit_feedback():
                            feedback_text=feedback_text,
                            prediction=prediction_result,
                            db_id=str(insert_id) if insert_id else "Not Stored")
+
+
+# Example: Route to view recent feedback (optional)
+@app.route('/view_feedback', methods=['GET'])
+def view_feedback():
+    """Displays recent feedback entries."""
+    if feedback_collection is None:
+        flash("Database connection is unavailable.", "error")
+        return render_template('view_feedback.html', feedback_list=[])
+
+    try:
+        # Get the last 10 entries, newest first
+        recent_feedback = list(feedback_collection.find().sort("submitted_at", pymongo.DESCENDING).limit(10))
+        return render_template('view_feedback.html', feedback_list=recent_feedback)
+    except Exception as e:
+        print(f"Error retrieving feedback from MongoDB: {e}")
+        flash("Could not retrieve feedback from database.", "error")
+        return render_template('view_feedback.html', feedback_list=[])
+
+
+# --- 6. Run the Flask App ---
+if __name__ == '__main__':
+    # Use debug=True for development ONLY - it allows code execution!
+    # Use host='0.0.0.0' to make it accessible on your network
+    # Port 5000 is the default for Flask
+    app.run(debug=True, host='0.0.0.0', port=5000)

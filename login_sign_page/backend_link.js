@@ -38,15 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
  
     const loginTab = document.getElementById('loginTab');
-    const signupTab = document.getElementById('signupTab');
     const loginForm = document.getElementById('loginForm');
-    const signupForm = document.getElementById('signupForm');
-    const switchToSignup = document.getElementById('switchToSignup');
-    const switchToLogin = document.getElementById('switchToLogin');
+
     
-    if (window.location.hash === '#signup') {
-      activateSignupTab();
-    }
 
     function activateLoginTab() {
       loginTab.classList.add('active');
@@ -64,10 +58,6 @@ document.addEventListener('DOMContentLoaded', function() {
       window.location.hash = 'signup';
     }
     
-    loginTab.addEventListener('click', activateLoginTab);
-    signupTab.addEventListener('click', activateSignupTab);
-    switchToSignup.addEventListener('click', activateSignupTab);
-    switchToLogin.addEventListener('click', activateLoginTab);
     
    
     const loginFormElement = document.getElementById('loginForm');
@@ -107,50 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
     });
     
-    signupFormElement.addEventListener('submit', async(e)=> {
-      e.preventDefault();
-      
-      const name = document.getElementById('signupName').value;
-      const email = document.getElementById('signupEmail').value;
-      const password = document.getElementById('signupPassword').value;
-      const confirmPassword = document.getElementById('signupConfirmPassword').value;
-      
-      if (validateSignupForm(name, email, password, confirmPassword)) {
-    
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('username', email.split('@')[0]);
-        
- 
-        // if (email.toLowerCase().includes('hr')) {
-        //   window.location.href = 'hr-dashboard.html';
-        // } else {
-        //   window.location.href = 'dashboard-landing.html';
-        // }
-      }
-      const userData={
-        name: name,
-        email: email,
-        password:password
-      }
-      try {
-        const res = await fetch('http://localhost:3000/users', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userData)
-        });
-        const result = await res.json(); 
-        if (!res.ok) {
-            alert(result.error)
-            signupFormElement.reset();
-            return;
-          }
-        signupFormElement.reset()
-        } catch (err) {
-          console.log(err)
-        }
-        
-    });
-    
+   
     function validateLoginForm(email, password) {
       let isValid = true;
  
@@ -172,35 +119,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return isValid;
     }
     
-    function validateSignupForm(name, email, password, confirmPassword) {
-      let isValid = true;
-      
-      document.getElementById('signupNameError').style.display = 'none';
-      document.getElementById('signupEmailError').style.display = 'none';
-      document.getElementById('signupPasswordError').style.display = 'none';
-      document.getElementById('signupConfirmPasswordError').style.display = 'none';
-      
-      if (!name) {
-        document.getElementById('signupNameError').style.display = 'block';
-        isValid = false;
-      }
-      if (!email || !isValidEmail(email)) {
-        document.getElementById('signupEmailError').style.display = 'block';
-        isValid = false;
-      }
-      
-      if (!password || password.length < 8) {
-        document.getElementById('signupPasswordError').style.display = 'block';
-        isValid = false;
-      }
-      if (password !== confirmPassword) {
-        document.getElementById('signupConfirmPasswordError').style.display = 'block';
-        isValid = false;
-      }
-      
-      return isValid;
-    }
-    
+ 
     function isValidEmail(email) {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Task</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+  <style>
+    /* Theme variables */
+    :root {
+      --background: #1A1F2C;
+      --foreground: #F8FAFC;
+      --card: #15181F;
+      --card-foreground: #F8FAFC;
+      --primary: #B99FFF;
+      --primary-foreground: #FAFAFA;
+      --secondary: #42C3C8;
+      --secondary-foreground: #15181F;
+      --muted: #2D3748;
+      --muted-foreground: #A6ADBA;
+      --accent: #1F1443;
+      --accent-foreground: #F8FAFC;
+      --destructive: #7F1D1D;
+      --destructive-foreground: #F8FAFC;
+      --border: #2D3748;
+      --input: #2D3748;
+      --ring: #B99FFF;
+      --sidebar: #15181F;
+      --gradient-primary: linear-gradient(135deg, #6366f1, #4f46e5);
+    --gradient-hover: linear-gradient(135deg, #4f46e5, #4338ca);
+
+    }
+
+    /* Light theme variables */
+    .light-theme {
+      --background: #F8FAFC;
+      --foreground: #0F172A;
+      --card: #FFFFFF;
+      --card-foreground: #0F172A;
+      --primary: #3B82F6;
+      --primary-foreground: #FFFFFF;
+      --secondary: #42C3C8;
+      --secondary-foreground: #FFFFFF;
+      --muted: #F1F5F9;
+      --muted-foreground: #64748B;
+      --accent: #F1F5F9;
+      --accent-foreground: #0F172A;
+      --destructive: #EF4444;
+      --destructive-foreground: #FFFFFF;
+      --border: #E2E8F0;
+      --input: #E2E8F0;
+      --ring: #3B82F6;
+      --sidebar: #F1F5F9;
+    }
+
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      transition: background-color 0.3s ease;
+    }
+
+    /* Layout */
+    .app {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header styles */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      background-color: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      transition: background-color 0.3s ease;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .go-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background: var(--gradient-primary);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+}
+
+.go-back:hover {
+    background: var(--gradient-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+}
+  /* Add these styles in the <style> section of add-employee.html */
+.theme-toggle {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--foreground);
+    transition: background-color 0.2s ease;
+}
+
+.theme-toggle:hover {
+    background-color: var(--muted);
+}
+
+.theme-toggle svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.sun-icon, .moon-icon {
+    transition: display 0.3s ease;
+}
+
+.light-theme .sun-icon {
+    display: none;
+}
+
+.light-theme .moon-icon {
+    display: block;
+}
+
+body:not(.light-theme) .sun-icon {
+    display: block;
+}
+
+body:not(.light-theme) .moon-icon {
+    display: none;
+}
+    /* Content */
+    .content {
+      flex-grow: 1;
+      padding: 24px;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .form-card {
+      background-color: var(--card);
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: var(--primary);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background-color: var(--background);
+      color: var(--foreground);
+      font-size: 14px;
+      transition: border-color 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary-foreground);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+      border: none;
+    }
+
+    .btn-primary {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--gradient-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+    opacity: 1;
+}
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--foreground);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--muted);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .notification {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      background-color: var(--muted);
+      color: var(--foreground);
+      display: none;
+    }
+
+    .notification.success {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+    }
+
+    .notification.error {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+    }
+
+    /* Required field indicator */
+    .required::after {
+      content: " *";
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="header-title">Add New Task</h1>
+      <div class="header-actions">
+        <a href="hr-dashboard.html" class="go-back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Back to Dashboard
+        </a>
+        <!-- Replace the theme toggle button in add-task.html -->
+<button class="theme-toggle" id="themeToggle">
+    <svg id="sunIcon" class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+    <svg id="moonIcon" class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+</button>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <div class="form-card">
+        <h2 class="card-title">Task Information</h2>
+        <form id="taskForm">
+          <div class="form-group">
+            <label for="taskName" class="required">Task Name</label>
+            <input type="text" id="taskName" name="taskName" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="assignedTo" class="required">Assigned To</label>
+            <select id="assignedTo" name="assignedTo" required>
+              <option value="">Select an employee</option>
+              <!-- Employee options will be populated by JavaScript -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="dueDate" class="required">Due Date</label>
+            <input type="date" id="dueDate" name="dueDate" required>
+          </div>
+
+          <div class="form-group">
+            <label for="priority">Priority</label>
+            <select id="priority" name="priority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+              <option value="urgent">Urgent</option>
+            </select>
+          </div>
+          
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add Task</button>
+            <a href="hr-dashboard.html" class="btn btn-outline">Cancel</a>
+          </div>
+        </form>
+        
+        <div id="notification" class="notification"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Replace the theme toggle script in both files
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+const sunIcon = document.getElementById('sunIcon');
+const moonIcon = document.getElementById('moonIcon');
+
+// Check if theme preference is stored
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+    body.classList.add('light-theme');
+    updateThemeIcons('light');
+} else {
+    updateThemeIcons('dark');
+}
+
+function updateThemeIcons(theme) {
+    if (theme === 'light') {
+        sunIcon.style.display = 'none';
+        moonIcon.style.display = 'block';
+    } else {
+        sunIcon.style.display = 'block';
+        moonIcon.style.display = 'none';
+    }
+}
+
+themeToggle.addEventListener('click', () => {
+    body.classList.toggle('light-theme');
+    const newTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcons(newTheme);
+});
+
+    // Populate employee dropdown
+    const assignedToSelect = document.getElementById('assignedTo');
+    
+    // Load employees from localStorage
+    const employees = JSON.parse(localStorage.getItem('employees')) || [];
+    
+    if (employees.length > 0) {
+      employees.forEach(employee => {
+        const option = document.createElement('option');
+        option.value = employee.email;
+        option.textContent = `${employee.firstName} ${employee.lastName}`;
+        assignedToSelect.appendChild(option);
+      });
+    } else {
+      // If no employees, add a placeholder
+      const option = document.createElement('option');
+      option.value = "";
+      option.textContent = "No employees available - add employees first";
+      assignedToSelect.appendChild(option);
+    }
+
+    // Set minimum date to today
+    const dueDateInput = document.getElementById('dueDate');
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    dueDateInput.min = formattedDate;
+
+    // Form submission handling
+    const taskForm = document.getElementById('taskForm');
+    const notification = document.getElementById('notification');
+
+    taskForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const taskName = document.getElementById('taskName').value;
+      const description = document.getElementById('description').value;
+      const assignedTo = document.getElementById('assignedTo').value;
+      const dueDate = document.getElementById('dueDate').value;
+      const priority = document.getElementById('priority').value;
+      
+      // Validate form
+      if (!assignedTo) {
+        notification.textContent = 'Please select an employee to assign the task to.';
+        notification.className = 'notification error';
+        notification.style.display = 'block';
+        return;
+      }
+      
+      // Find the assigned employee object
+      const assignedEmployee = employees.find(emp => emp.email === assignedTo);
+      
+      // Create task object
+      const task = {
+        id: Date.now().toString(),
+        taskName,
+        description,
+        assignedTo: assignedEmployee ? {
+          email: assignedEmployee.email,
+          name: `${assignedEmployee.firstName} ${assignedEmployee.lastName}`
+        } : { email: assignedTo, name: assignedTo },
+        dueDate,
+        priority,
+        status: 'pending',
+        createdAt: new Date().toISOString()
+      };
+      
+      // Get existing tasks or initialize empty array
+      const existingTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+      
+      // Add new task
+      existingTasks.push(task);
+      
+      // Save back to localStorage
+      localStorage.setItem('tasks', JSON.stringify(existingTasks));
+      
+      // Show success message
+      notification.textContent = `Task "${taskName}" added successfully!`;
+      notification.className = 'notification success';
+      notification.style.display = 'block';
+      
+      // Reset form
+      taskForm.reset();
+      
+      // Redirect after delay
+      setTimeout(() => {
+        window.location.href = 'hr-dashboard.html';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

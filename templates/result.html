@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Analysis Result</title>
+     <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .result-box { border: 1px solid #ccc; padding: 15px; margin-top: 20px; border-radius: 5px; background-color: #f9f9f9; }
+        h1, h2 { color: #333; }
+        strong { color: #0056b3; }
+        .feedback-text { background-color: #eee; padding: 10px; border-radius: 3px; margin-top: 5px; white-space: pre-wrap; /* Preserve line breaks */ }
+        .error { color: red; font-weight: bold; }
+        a { color: #007bff; text-decoration: none; margin-top: 15px; display: inline-block;}
+        a:hover { text-decoration: underline; }
+     </style>
+</head>
+<body>
+    <h1>Feedback Analysis Result</h1>
+
+    <div class="result-box">
+        <h2>Feedback For: {{ employee_name }}</h2>
+        <p><strong>Submitted Feedback:</strong></p>
+        <div class="feedback-text">{{ feedback_text }}</div>
+
+        <hr>
+
+        <h2>Analysis:</h2>
+        {% if prediction and not prediction.get('error') %}
+            <p><strong>Sentiment:</strong> {{ prediction.sentiment }}</p>
+            <p><strong>Calculated Rating:</strong> {{ prediction.rating }}/5.0</p>
+            {% if prediction.keywords %}
+                <p><strong>Keywords Detected:</strong> {{ prediction.keywords | join(', ') }}</p>
+            {% endif %}
+            <p><small>Processed at: {{ prediction.processed_at.strftime('%Y-%m-%d %H:%M:%S UTC') if prediction.processed_at else 'N/A' }}</small></p>
+             <p><small>Database ID: {{ db_id }}</small></p>
+        {% elif prediction and prediction.get('error') %}
+             <p class="error"><strong>Error during analysis:</strong> {{ prediction.error }}</p>
+             <p><small>Database ID: {{ db_id }}</small></p>
+        {% else %}
+             <p class="error">Analysis data is unavailable.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('index') }}">Submit More Feedback</a>
+     <br>
+    <a href="{{ url_for('view_feedback') }}">View Recent Feedback</a>
+
+</body>
+</html>

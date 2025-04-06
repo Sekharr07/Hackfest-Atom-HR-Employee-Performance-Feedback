@@ -2,13 +2,13 @@ const express = require('express')
 const mongoose = require('mongoose');
 const path = require('path');
 const axios = require('axios');
-const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const app = express()
 app.use(express.json())
 
 const User=require('./password_modules/user');
+const { log } = require('console');
 
 mongoose.connect('mongodb://127.0.0.1:27017/myappdb', {
     useNewUrlParser: true,
@@ -73,14 +73,28 @@ app.get('/users_2', async (req, res) => {
   }
 });
 
+app.post('/new_user',async(req,res)=>{
+  try{
+    const user=new User(req.body)
+    await user.save()
+  }catch(error){
+    console.log(error);
+  }
+})
 
 
 app.post('/feedback',async(req,res)=>{
-  const {name,Feedback}=req.body;
+  
   try{
+    console.log('Incoming POST /feedback');
+    console.log('Request body:', req.body);
+    const {name,feedbackText}=req.body;
     const user = await User.findOne({name});
     if (!user) return res.status(400).json({ message: 'User not found' });
-    user.feedback.push(Feedback);  
+
+    console.log('User found:', user);
+    user.feedback.push(feedbackText); 
+    await user.save(); 
   }catch (err) {
     res.status(500).json({ message: 'Server error' });
   } 
