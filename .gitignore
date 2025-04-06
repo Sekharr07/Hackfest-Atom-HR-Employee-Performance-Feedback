@@ -3,3 +3,7 @@ node_modules/
 package-lock.json
 package.json
 .gitignore
+app.py
+model.py
+main.ipynb
+.venv

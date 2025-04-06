@@ -64,7 +64,7 @@ app.listen(port, () => {
 
 app.get('/users_2', async (req, res) => {
   try {
-    const users = await User.find({}, { name: 1, _id: 0 });
+    const users = await User.find({}, { name: 1, hoursWorked: 1,tasksCompleted:1});
     res.json(users);
   } catch (err) {
     console.error(err);
