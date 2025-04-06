@@ -18,6 +18,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/myappdb', {
 
 const port = 3000
 
+
 app.use(express.static(path.join(__dirname, 'login_sign_page')));
 app.use(express.static(path.join(__dirname, 'opening_page')));
 
@@ -64,7 +65,7 @@ app.listen(port, () => {
 
 app.get('/users_2', async (req, res) => {
   try {
-    const users = await User.find({}, { name: 1, hoursWorked: 1,tasksCompleted:1});
+    const users = await User.find({}, { name: 1, hoursWorked: 1,tasksCompleted:1,_id:0});
     res.json(users);
   } catch (err) {
     console.error(err);
@@ -72,3 +73,24 @@ app.get('/users_2', async (req, res) => {
   }
 });
 
+
+
+app.post('/feedback',async(req,res)=>{
+  const {name,Feedback}=req.body;
+  try{
+    const user = await User.findOne({name});
+    if (!user) return res.status(400).json({ message: 'User not found' });
+    user.feedback.push(Feedback);  
+  }catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  } 
+});
+
+app.get('/user_3',async(req,res) => {
+  try{
+    const users= await User.find({},{name:1,_id:0});
+    res.json(users)
+  }catch(err){
+    console.log(err)
+  }
+})

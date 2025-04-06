@@ -1,16 +1,17 @@
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GoFloww HR - Admin Dashboard</title>
-  <meta name="description" content="HR Administrator Dashboard for GoFloww's Atom HR platform" />
- 
+  <title>GoFloww HR - Employee Performance & Feedback</title>
+  <meta name="description" content="Employee Performance & Feedback Management Module for GoFloww's Atom HR platform" />
+  
   <!-- Open Graph / Social Media Meta Tags -->
-  <meta property="og:title" content="GoFloww HR - Admin Dashboard" />
-  <meta property="og:description" content="HR Administrator Dashboard for GoFloww's Atom HR platform" />
+  <meta property="og:title" content="GoFloww HR - Employee Performance & Feedback" />
+  <meta property="og:description" content="Employee Performance & Feedback Management Module for GoFloww's Atom HR platform" />
   <meta property="og:type" content="website" />
- 
+  
   <style>
     /* CSS Reset */
     * {
@@ -25,31 +26,31 @@
     :root {
       /* Light Theme */
       --background-light: #F8FAFC;
-      --foreground-light: #222838;
+      --foreground-light: #1A1F2C;
       --card-light: #FFFFFF;
-      --card-foreground-light: #101420;
+      --card-foreground-light: #1A1F2C;
       --card-secondary-light: #F1F5F9;
       --primary-light: #9b87f5;
       --primary-foreground-light: #FFFFFF;
       --secondary-light: #5CB9AA;
-      --secondary-foreground-light: #161920;
+      --secondary-foreground-light: #1A1F2C;
       --muted-light: #F1F5F9;
       --muted-foreground-light: #64748B;
       --accent-light: #F8FAFC;
-      --accent-foreground-light: #181d29;
+      --accent-foreground-light: #1A1F2C;
       --destructive-light: #E53E3E;
       --destructive-foreground-light: #F8FAFC;
       --border-light: #E2E8F0;
       --input-light: #E2E8F0;
       --ring-light: #9b87f5;
       --sidebar-light: #FFFFFF;
-     
+      
       /* Dark Theme */
-      --background: #0a0b0e;
+      --background: #1A1F2C;
       --foreground: #F8FAFC;
-      --card: #202035;
+      --card: #222232;
       --card-foreground: #F8FAFC;
-      --card-secondary: #181822;
+      --card-secondary: #2d2d40;
       --primary: #9b87f5;
       --primary-foreground: #FFFFFF;
       --secondary: #5CB9AA;
@@ -134,7 +135,24 @@
       border-bottom: 1px solid var(--border);
     }
 
-   
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(to right, var(--primary), #7E69AB);
+      border-radius: 6px;
+    }
+
+    .logo-text {
+      font-weight: 600;
+      font-size: 18px;
+    }
 
     .sidebar-collapse-btn {
       background: none;
@@ -533,151 +551,49 @@
       color: var(--muted-foreground);
     }
 
-    /* Employees List */
-    .employees-list {
+    /* Reviews List */
+    .reviews-list {
       padding: 0;
       margin: 0;
       list-style-type: none;
     }
 
-    .employee-item {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      transition: background-color var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .employee-item:last-child {
-      border-bottom: none;
-    }
-
-    .employee-item:hover {
-      background-color: var(--card-secondary);
-    }
-
-    .employee-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .employee-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-color: var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .employee-details {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .employee-name {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    .employee-position {
-      font-size: 12px;
-      color: var(--muted-foreground);
-    }
-
-    .employee-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .action-button {
-      background-color: transparent;
-      color: var(--foreground);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 4px 8px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: background-color var(--transition), color var(--transition);
-    }
-
-    .action-button:hover {
-      background-color: var(--primary);
-      color: var(--primary-foreground);
-      border-color: var(--primary);
-    }
-
-    /* Tasks List */
-    .tasks-list {
-      padding: 0;
-      margin: 0;
-      list-style-type: none;
-    }
-
-    .task-item {
+    .review-item {
       padding: 12px 16px;
       border-bottom: 1px solid var(--border);
       transition: background-color var(--transition);
     }
 
-    .task-item:last-child {
+    .review-item:last-child {
       border-bottom: none;
     }
 
-    .task-item:hover {
+    .review-item:hover {
       background-color: var(--card-secondary);
     }
 
-    .task-header {
+    .review-header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 4px;
     }
 
-    .task-title {
+    .review-title {
       font-weight: 600;
       font-size: 14px;
     }
 
-    .task-assignee {
+    .review-type {
       font-size: 12px;
       color: var(--muted-foreground);
     }
 
-    .task-due-date {
+    .review-date {
       font-size: 12px;
       color: var(--primary);
     }
 
-    .task-status {
-      padding: 2px 8px;
-      border-radius: 9999px;
-      font-size: 10px;
-      font-weight: 500;
-      display: inline-block;
-    }
-
-    .status-pending {
-      background-color: var(--amber);
-      color: var(--accent-foreground);
-    }
-
-    .status-in-progress {
-      background-color: var(--blue);
-      color: var(--accent-foreground);
-    }
-
-    .status-completed {
-      background-color: var(--emerald);
-      color: var(--accent-foreground);
-    }
-
-    .task-action {
+    .review-action {
       background-color: transparent;
       color: var(--foreground);
       border: 1px solid var(--border);
@@ -689,7 +605,7 @@
       margin-top: 4px;
     }
 
-    .task-action:hover {
+    .review-action:hover {
       background-color: var(--primary);
       color: var(--primary-foreground);
       border-color: var(--primary);
@@ -962,35 +878,6 @@
       }
     }
 
-    /* HR-specific styles */
-    .action-btn {
-      display: inline-block;
-      padding: 8px 16px;
-      background-color: var(--primary);
-      color: var(--primary-foreground);
-      border: none;
-      border-radius: var(--radius);
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      margin-right: 8px;
-      transition: background-color var(--transition);
-    }
-
-    .action-btn:hover {
-      background-color: #7E69AB;
-    }
-
-    .action-btn-secondary {
-      background-color: transparent;
-      border: 1px solid var(--border);
-      color: var(--foreground);
-    }
-
-    .action-btn-secondary:hover {
-      background-color: var(--muted);
-    }
-
     /* Dropdown menus */
     .dropdown {
       position: relative;
@@ -1036,26 +923,7 @@
       background-color: var(--border);
     }
 
-    /* Theme toggle */
-    .theme-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: none;
-      border: none;
-      color: var(--foreground);
-      cursor: pointer;
-      transition: background-color var(--transition);
-    }
-
-    .theme-toggle:hover {
-      background-color: var(--muted);
-    }
-
-    /* Notification dropdown */
+    /* Dropdown notifications */
     .notification-item {
       padding: 8px 16px;
       display: flex;
@@ -1099,30 +967,24 @@
       color: var(--muted-foreground);
       margin-top: 4px;
     }
-   
-    /* Additional button styles */
-    .add-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 16px;
-        background-color: var(--primary);
-        color: var(--primary-foreground);
-        border: none;
-        border-radius: var(--radius);
-        text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
+
+    /* Theme toggle */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      color: var(--foreground);
       cursor: pointer;
       transition: background-color var(--transition);
     }
-    a{
-        text-decoration: none;
-        color: var(--primary-foreground);
-    }
 
-    .add-btn:hover {
-      background-color: #7E69AB;
+    .theme-toggle:hover {
+      background-color: var(--muted);
     }
 
     /* Auth buttons */
@@ -1179,14 +1041,16 @@
 
       <div class="nav-container">
         <div class="nav-section">
-         
-          <a href="#feedback" class="nav-item">
+          <a href="dashboard-landing.html" class="nav-item active">
             <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
             </svg>
-            <span>Feedback</span>
+            <span>Dashboard</span>
           </a>
-          <!-- <a href="#reviews" class="nav-item">
+          <a href="#reviews" class="nav-item">
             <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
@@ -1195,8 +1059,22 @@
               <polyline points="10 9 9 9 8 9"></polyline>
             </svg>
             <span>Reviews</span>
-          </a> -->
-          <a href="hr_analytics.html" class="nav-item">
+          </a>
+          <a href="#feedback" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Feedback</span>
+          </a>
+          <a href="#goals" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+            <span>Goals</span>
+          </a>
+          <a href="#analytics" class="nav-item">
             <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
             </svg>
@@ -1207,6 +1085,22 @@
         <div class="divider"></div>
 
         <div class="nav-section">
+          <a href="#team" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Team</span>
+          </a>
+          <a href="#kb" class="nav-item">
+            <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>Knowledge Base</span>
+          </a>
           <a href="#settings" class="nav-item">
             <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="3"></circle>
@@ -1214,19 +1108,18 @@
             </svg>
             <span>Settings</span>
           </a>
-          <a href="dashboard-landing.html" class="nav-item">
+          <a href="hr-dashboard.html" class="nav-item">
             <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
             </svg>
-            <span>Switch to Employee</span>
+            <span>Switch to HR</span>
           </a>
         </div>
       </div>
 
       <div class="sidebar-footer">
-        HR Administrator Dashboard v1.0
+        Employee Performance & Feedback Module v1.0
       </div>
     </aside>
 
@@ -1280,19 +1173,19 @@
             <div class="dropdown-menu" id="notificationsMenu">
               <div class="dropdown-header">Notifications</div>
               <div class="notification-item">
-                <div class="notification-avatar">TS</div>
+                <div class="notification-avatar">AI</div>
                 <div class="notification-content">
-                  <div class="notification-title">Team Status</div>
-                  <div class="notification-text">3 employees completed their performance reviews.</div>
-                  <div class="notification-time">1 hour ago</div>
+                  <div class="notification-title">Alex Ivanov</div>
+                  <div class="notification-text">Completed your performance review.</div>
+                  <div class="notification-time">2 hours ago</div>
                 </div>
               </div>
               <div class="notification-item">
-                <div class="notification-avatar">AT</div>
+                <div class="notification-avatar">SL</div>
                 <div class="notification-content">
-                  <div class="notification-title">Assignment Updates</div>
-                  <div class="notification-text">New task assignments require approval.</div>
-                  <div class="notification-time">3 hours ago</div>
+                  <div class="notification-title">Sarah Lee</div>
+                  <div class="notification-text">Sent you feedback on your recent project.</div>
+                  <div class="notification-time">5 hours ago</div>
                 </div>
               </div>
               <div class="dropdown-divider"></div>
@@ -1307,7 +1200,7 @@
 
           <div class="dropdown" id="userDropdown">
             <button class="header-button">
-              <div class="avatar">HR</div>
+              <div class="avatar">JD</div>
             </button>
             <div class="dropdown-menu" id="userMenu">
               <div class="dropdown-header">My Account</div>
@@ -1323,56 +1216,40 @@
       <!-- Dashboard Content -->
       <main class="dashboard">
         <div class="dashboard-header">
-          <h1 class="dashboard-title">HR Admin Dashboard</h1>
-          <p class="dashboard-subtitle">Manage your team, tasks, and company performance.</p>
-          <div style="margin-top: 16px; display: flex; gap: 8px;">
-            <button class="add-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              <a href="add-employee.html" class="btn btn-primary">Add Employee</a>
-            </button>
-            <button class="add-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              <a href="add-task.html" class="btn btn-primary">Add Task</a>
-            </button>
-          </div>
+          <h1 class="dashboard-title">Dashboard</h1>
+          <p class="dashboard-subtitle">
+            Welcome back! Here's an overview of your performance and feedback.
+          </p>
         </div>
 
         <!-- Stats Cards -->
         <div class="stats-grid">
           <div class="stat-card stat-card-purple">
             <div class="stat-header">
-              <div class="stat-title">Total Employees</div>
+              <div class="stat-title">Overall Rating</div>
               <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                <circle cx="9" cy="7" r="4"></circle>
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
               </svg>
             </div>
-            <div class="stat-value">42</div>
-            <div class="stat-desc">Active team members</div>
+            <div class="stat-value">4.8/5.0</div>
+            <div class="stat-desc">Based on recent reviews</div>
             <div class="stat-trend">
-              <span class="trend-up">+3</span>
-              <span>since last month</span>
+              <span class="trend-up">+0.3</span>
+              <span>vs. last period</span>
             </div>
           </div>
 
           <div class="stat-card stat-card-green">
             <div class="stat-header">
-              <div class="stat-title">Completed Tasks</div>
+              <div class="stat-title">Performance Trend</div>
               <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3 3L22 4"></path>
-                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                <polyline points="17 6 23 6 23 12"></polyline>
               </svg>
             </div>
-            <div class="stat-value">87%</div>
-            <div class="stat-desc">Tasks completed on time</div>
+            <div class="stat-value">+12%</div>
+            <div class="stat-desc">Improvement over last quarter</div>
             <div class="stat-trend">
               <span class="trend-up">+5%</span>
               <span>vs. last period</span>
@@ -1381,35 +1258,34 @@
 
           <div class="stat-card stat-card-blue">
             <div class="stat-header">
-              <div class="stat-title">Team Satisfaction</div>
+              <div class="stat-title">Peer Recognition</div>
               <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
               </svg>
             </div>
-            <div class="stat-value">4.6/5</div>
-            <div class="stat-desc">Based on surveys</div>
+            <div class="stat-value">18</div>
+            <div class="stat-desc">Received this month</div>
             <div class="stat-trend">
-              <span class="trend-up">+0.2</span>
-              <span>vs. last quarter</span>
+              <span class="trend-up">+3</span>
+              <span>vs. last period</span>
             </div>
           </div>
 
           <div class="stat-card stat-card-amber">
             <div class="stat-header">
-              <div class="stat-title">Open Positions</div>
+              <div class="stat-title">Feedback Given</div>
               <svg class="stat-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
               </svg>
             </div>
-            <div class="stat-value">5</div>
-            <div class="stat-desc">Positions to fill</div>
+            <div class="stat-value">9</div>
+            <div class="stat-desc">In the last 30 days</div>
             <div class="stat-trend">
               <span class="trend-down">-2</span>
-              <span>since last month</span>
+              <span>vs. last period</span>
             </div>
           </div>
         </div>
@@ -1419,7 +1295,27 @@
           <div class="left-column">
             <div class="card" style="margin-bottom: 16px;">
               <div class="card-header">
-                <div class="card-title">Performance Overview</div>
+                <div class="card-title">Current Review Cycle Progress</div>
+              </div>
+              <div class="card-content">
+                <div class="flex" style="display: flex; justify-content: space-between;">
+                  <span style="font-size: 14px; font-weight: 500;">65% Complete</span>
+                  <span style="font-size: 12px; color: var(--muted-foreground);">Due: April 15, 2025</span>
+                </div>
+                <div class="progress-container">
+                  <div class="progress-bar" style="width: 65%;"></div>
+                </div>
+                <div class="progress-labels">
+                  <span>Self Review</span>
+                  <span>Peer Feedback</span>
+                  <span>Manager Review</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">Performance Trend</div>
                 <div class="chart-legend">
                   <div class="legend-item">
                     <div class="legend-color legend-color-1"></div>
@@ -1442,185 +1338,59 @@
                 </div>
               </div>
             </div>
-
-            <div class="card">
-              <div class="card-header">
-                <div class="card-title">Employee List</div>
-                <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="9" cy="7" r="4"></circle>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                </svg>
-              </div>
-              <div class="card-content" style="padding: 0;">
-                <ul class="employees-list">
-                  <li class="employee-item">
-                    <div class="employee-info">
-                      <div class="employee-avatar">JD</div>
-                      <div class="employee-details">
-                        <div class="employee-name">John Doe</div>
-                        <div class="employee-position">Senior Developer</div>
-                      </div>
-                    </div>
-                    <div class="employee-actions">
-                      <button class="action-button">View Profile</button>
-                      <button class="action-button">Review</button>
-                    </div>
-                  </li>
-                  <li class="employee-item">
-                    <div class="employee-info">
-                      <div class="employee-avatar">EW</div>
-                      <div class="employee-details">
-                        <div class="employee-name">Emma Watson</div>
-                        <div class="employee-position">Project Manager</div>
-                      </div>
-                    </div>
-                    <div class="employee-actions">
-                      <button class="action-button">View Profile</button>
-                      <button class="action-button">Review</button>
-                    </div>
-                  </li>
-                  <li class="employee-item">
-                    <div class="employee-info">
-                      <div class="employee-avatar">MJ</div>
-                      <div class="employee-details">
-                        <div class="employee-name">Mark Johnson</div>
-                        <div class="employee-position">UI/UX Designer</div>
-                      </div>
-                    </div>
-                    <div class="employee-actions">
-                      <button class="action-button">View Profile</button>
-                      <button class="action-button">Review</button>
-                    </div>
-                  </li>
-                  <li class="employee-item">
-                    <div class="employee-info">
-                      <div class="employee-avatar">SL</div>
-                      <div class="employee-details">
-                        <div class="employee-name">Sarah Lee</div>
-                        <div class="employee-position">Marketing Specialist</div>
-                      </div>
-                    </div>
-                    <div class="employee-actions">
-                      <button class="action-button">View Profile</button>
-                      <button class="action-button">Review</button>
-                    </div>
-                  </li>
-                </ul>
-                <button class="view-all-btn">View All Employees</button>
-              </div>
-            </div>
           </div>
 
           <div class="right-column">
             <div class="card">
               <div class="card-header">
-                <div class="card-title">Active Tasks</div>
+                <div class="card-title">Upcoming Reviews</div>
                 <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 11l3 3L22 4"></path>
-                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
                 </svg>
               </div>
               <div class="card-content" style="padding: 0;">
-                <ul class="tasks-list">
-                  <li class="task-item">
-                    <div class="task-header">
+                <ul class="reviews-list">
+                  <li class="review-item">
+                    <div class="review-header">
                       <div>
-                        <div class="task-title">Q2 Performance Reviews</div>
-                        <div class="task-assignee">Assigned to: Multiple</div>
+                        <div class="review-title">Q2 Performance Review</div>
+                        <div class="review-type">Quarterly Review</div>
                       </div>
                       <div style="text-align: right;">
-                        <div class="task-due-date">Due: May 15, 2025</div>
-                        <span class="task-status status-in-progress">In Progress</span>
+                        <div class="review-date">in 2 months</div>
+                        <button class="review-action">Start Review</button>
                       </div>
                     </div>
-                    <button class="task-action">View Details</button>
                   </li>
-                  <li class="task-item">
-                    <div class="task-header">
+                  <li class="review-item">
+                    <div class="review-header">
                       <div>
-                        <div class="task-title">New Hire Onboarding</div>
-                        <div class="task-assignee">Assigned to: Sarah Lee</div>
+                        <div class="review-title">Project Alpha Assessment</div>
+                        <div class="review-type">Project Review</div>
                       </div>
                       <div style="text-align: right;">
-                        <div class="task-due-date">Due: April 28, 2025</div>
-                        <span class="task-status status-pending">Pending</span>
+                        <div class="review-date">in 3 weeks</div>
+                        <button class="review-action">Continue</button>
                       </div>
                     </div>
-                    <button class="task-action">View Details</button>
                   </li>
-                  <li class="task-item">
-                    <div class="task-header">
+                  <li class="review-item">
+                    <div class="review-header">
                       <div>
-                        <div class="task-title">Team Building Event</div>
-                        <div class="task-assignee">Assigned to: Emma Watson</div>
+                        <div class="review-title">1:1 with Manager</div>
+                        <div class="review-type">Regular Check-in</div>
                       </div>
                       <div style="text-align: right;">
-                        <div class="task-due-date">Due: June 12, 2025</div>
-                        <span class="task-status status-pending">Pending</span>
+                        <div class="review-date">in 1 week</div>
+                        <button class="review-action">View</button>
                       </div>
                     </div>
-                    <button class="task-action">View Details</button>
                   </li>
                 </ul>
-                <button class="view-all-btn">View All Tasks</button>
-              </div>
-            </div>
-
-            <div class="card" style="margin-top: 16px;">
-              <div class="card-header">
-                <div class="card-title">Department Performance</div>
-                <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polygon points="10 8 16 12 10 16 10 8"></polygon>
-                </svg>
-              </div>
-              <div class="card-content">
-                <div class="goals-list">
-                  <div class="goal-item">
-                    <div class="goal-header">
-                      <div>
-                        <div class="goal-title">Development Team</div>
-                        <div class="goal-category">Technical Performance</div>
-                      </div>
-                      <div class="goal-progress-info">
-                        <span class="goal-progress-value">85%</span>
-                      </div>
-                    </div>
-                    <div class="progress-container">
-                      <div class="progress-bar" style="width: 85%"></div>
-                    </div>
-                  </div>
-                  <div class="goal-item">
-                    <div class="goal-header">
-                      <div>
-                        <div class="goal-title">Marketing Team</div>
-                        <div class="goal-category">Campaign Effectiveness</div>
-                      </div>
-                      <div class="goal-progress-info">
-                        <span class="goal-progress-value">72%</span>
-                      </div>
-                    </div>
-                    <div class="progress-container">
-                      <div class="progress-bar" style="width: 72%"></div>
-                    </div>
-                  </div>
-                  <div class="goal-item">
-                    <div class="goal-header">
-                      <div>
-                        <div class="goal-title">Sales Team</div>
-                        <div class="goal-category">Quarterly Goals</div>
-                      </div>
-                      <div class="goal-progress-info">
-                        <span class="goal-progress-value">93%</span>
-                      </div>
-                    </div>
-                    <div class="progress-container">
-                      <div class="progress-bar" style="width: 93%"></div>
-                    </div>
-                  </div>
-                </div>
+                <button class="view-all-btn">View All Reviews</button>
               </div>
             </div>
           </div>
@@ -1628,6 +1398,66 @@
 
         <!-- Bottom Grid -->
         <div class="bottom-grid">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Development Goals</div>
+              <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+            <div class="card-content">
+              <div class="goals-list">
+                <div class="goal-item">
+                  <div class="goal-header">
+                    <div>
+                      <div class="goal-title">Complete Advanced React Training</div>
+                      <div class="goal-category">Technical Skill</div>
+                    </div>
+                    <div class="goal-progress-info">
+                      <span class="goal-progress-value">65%</span>
+                      <span class="goal-due-date">Due: June 30, 2025</span>
+                    </div>
+                  </div>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: 65%"></div>
+                  </div>
+                </div>
+                <div class="goal-item">
+                  <div class="goal-header">
+                    <div>
+                      <div class="goal-title">Improve Team Communication</div>
+                      <div class="goal-category">Soft Skill</div>
+                    </div>
+                    <div class="goal-progress-info">
+                      <span class="goal-progress-value">40%</span>
+                      <span class="goal-due-date">Due: July 15, 2025</span>
+                    </div>
+                  </div>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: 40%"></div>
+                  </div>
+                </div>
+                <div class="goal-item">
+                  <div class="goal-header">
+                    <div>
+                      <div class="goal-title">Mentor Junior Team Members</div>
+                      <div class="goal-category">Leadership</div>
+                    </div>
+                    <div class="goal-progress-info">
+                      <span class="goal-progress-value">80%</span>
+                      <span class="goal-due-date">Due: Ongoing</span>
+                    </div>
+                  </div>
+                  <div class="progress-container">
+                    <div class="progress-bar" style="width: 80%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="card">
             <div class="card-header">
               <div class="card-title">Recent Feedback</div>
@@ -1639,111 +1469,58 @@
               <div class="feedback-list">
                 <div class="feedback-card">
                   <div class="feedback-header">
-                    <div class="feedback-avatar">JD</div>
+                    <div class="feedback-avatar">EW</div>
                     <div>
-                      <div class="feedback-name">John Doe → Team</div>
+                      <div class="feedback-name">Emma Watson</div>
                       <div class="feedback-date">2 days ago</div>
                     </div>
                   </div>
                   <div class="feedback-text">
-                    The new collaboration tool has significantly improved our team's productivity. Great choice by management!
+                    Great job on the customer presentation! Your explanation of the technical aspects in simple terms really helped close the deal.
                   </div>
                   <div class="feedback-actions">
                     <button class="feedback-action">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
                       </svg>
-                      <span>7</span>
+                      <span>12</span>
                     </button>
                     <button class="feedback-action">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                       </svg>
-                      <span>2</span>
+                      <span>3</span>
                     </button>
                   </div>
                 </div>
                 <div class="feedback-card">
                   <div class="feedback-header">
-                    <div class="feedback-avatar">EW</div>
+                    <div class="feedback-avatar">MJ</div>
                     <div>
-                      <div class="feedback-name">Emma Watson → Management</div>
-                      <div class="feedback-date">4 days ago</div>
+                      <div class="feedback-name">Mark Johnson</div>
+                      <div class="feedback-date">3 days ago</div>
                     </div>
                   </div>
                   <div class="feedback-text">
-                    We need to reconsider the timeline for Project Athena. The current deadlines seem unrealistic given our resources.
+                    I appreciate your help with debugging the API integration. Your knowledge of the system architecture was invaluable.
                   </div>
                   <div class="feedback-actions">
                     <button class="feedback-action">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
                       </svg>
-                      <span>5</span>
+                      <span>8</span>
                     </button>
                     <button class="feedback-action">
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                       </svg>
-                      <span>4</span>
+                      <span>1</span>
                     </button>
                   </div>
                 </div>
               </div>
               <button class="view-all-btn" style="margin-top: 16px;">View All Feedback</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Upcoming Reviews</div>
-              <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-            </div>
-            <div class="card-content" style="padding: 0;">
-              <ul class="reviews-list">
-                <li class="review-item">
-                  <div class="review-header">
-                    <div>
-                      <div class="review-title">Development Team Q2 Review</div>
-                      <div class="review-type">Quarterly Review</div>
-                    </div>
-                    <div style="text-align: right;">
-                      <div class="review-date">May 15, 2025</div>
-                      <button class="review-action">Schedule</button>
-                    </div>
-                  </div>
-                </li>
-                <li class="review-item">
-                  <div class="review-header">
-                    <div>
-                      <div class="review-title">Mark Johnson - Performance Review</div>
-                      <div class="review-type">Annual Review</div>
-                    </div>
-                    <div style="text-align: right;">
-                      <div class="review-date">April 28, 2025</div>
-                      <button class="review-action">Prepare</button>
-                    </div>
-                  </div>
-                </li>
-                <li class="review-item">
-                  <div class="review-header">
-                    <div>
-                      <div class="review-title">New Hires - 90 Day Review</div>
-                      <div class="review-type">Probation Review</div>
-                    </div>
-                    <div style="text-align: right;">
-                      <div class="review-date">Various dates</div>
-                      <button class="review-action">View</button>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <button class="view-all-btn">View All Reviews</button>
             </div>
           </div>
         </div>
@@ -1758,10 +1535,19 @@
       const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
       const userDropdown = document.getElementById('userDropdown');
       const authButtons = document.getElementById('authButtons');
-     
+      
       if (isLoggedIn) {
         userDropdown.style.display = 'block';
         authButtons.style.display = 'none';
+        
+        // Set username from localStorage if available
+        const username = localStorage.getItem('username');
+        if (username) {
+          const avatarInitials = document.querySelector('.avatar');
+          if (avatarInitials) {
+            avatarInitials.textContent = username.substring(0, 2).toUpperCase();
+          }
+        }
       } else {
         userDropdown.style.display = 'none';
         authButtons.style.display = 'flex';
@@ -1772,8 +1558,8 @@
       const sunIcon = document.getElementById('sunIcon');
       const moonIcon = document.getElementById('moonIcon');
       const htmlElement = document.documentElement;
-     
-      // Set initial theme based on localStorage or default to dark
+      
+      // Set initial theme based on localStorage or default
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme) {
         htmlElement.className = savedTheme;
@@ -1783,7 +1569,7 @@
         htmlElement.className = 'dark';
         updateThemeIcons('dark');
       }
-     
+      
       function updateThemeIcons(theme) {
         if (theme === 'light') {
           sunIcon.style.display = 'none';
@@ -1793,7 +1579,7 @@
           moonIcon.style.display = 'none';
         }
       }
-     
+      
       themeToggle.addEventListener('click', function() {
         if (htmlElement.classList.contains('dark')) {
           htmlElement.className = 'light';
@@ -1810,19 +1596,19 @@
       const loginBtn = document.getElementById('loginBtn');
       const signupBtn = document.getElementById('signupBtn');
       const logoutBtn = document.getElementById('logoutBtn');
-     
+      
       if (loginBtn) {
         loginBtn.addEventListener('click', function() {
-          window.location.href = '/index.html';
+          window.location.href = 'login.html';
         });
       }
-     
+      
       if (signupBtn) {
         signupBtn.addEventListener('click', function() {
-          window.location.href = '/index.html';
+          window.location.href = 'login.html#signup';
         });
       }
-     
+      
       if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
           localStorage.removeItem('isLoggedIn');
@@ -1871,80 +1657,78 @@
       // Chart functionality
       const performanceChart = document.getElementById('performanceChart');
       const chartTooltip = document.getElementById('chartTooltip');
-     
+      
       // Sample data for the chart
       const chartData = [
-        { month: 'Jan', current: 3.6, previous: 3.1 },
-        { month: 'Feb', current: 3.8, previous: 3.3 },
-        { month: 'Mar', current: 4.0, previous: 3.5 },
-        { month: 'Apr', current: 4.1, previous: 3.7 },
-        { month: 'May', current: 4.3, previous: 3.8 },
-        { month: 'Jun', current: 4.4, previous: 3.9 },
-        { month: 'Jul', current: 4.5, previous: 4.0 },
-        { month: 'Aug', current: 4.6, previous: 4.1 },
-        { month: 'Sep', current: 4.7, previous: 4.2 },
-        { month: 'Oct', current: 4.8, previous: 4.3 },
-        { month: 'Nov', current: 4.9, previous: 4.4 },
-        { month: 'Dec', current: 4.9, previous: 4.5 }
+        { month: 'Jan', current: 3.2, previous: 2.8 },
+        { month: 'Feb', current: 3.5, previous: 3.0 },
+        { month: 'Mar', current: 3.8, previous: 3.2 },
+        { month: 'Apr', current: 3.6, previous: 3.4 },
+        { month: 'May', current: 3.9, previous: 3.5 },
+        { month: 'Jun', current: 4.1, previous: 3.7 },
+        { month: 'Jul', current: 4.3, previous: 3.8 },
+        { month: 'Aug', current: 4.2, previous: 3.9 },
+        { month: 'Sep', current: 4.4, previous: 4.0 },
+        { month: 'Oct', current: 4.5, previous: 4.1 },
+        { month: 'Nov', current: 4.7, previous: 4.2 },
+        { month: 'Dec', current: 4.8, previous: 4.3 }
       ];
 
       // Create chart bars
-      if (performanceChart) {
-        chartData.forEach((data) => {
-          // Create a group for each month
-          const barGroup = document.createElement('div');
-          barGroup.style.display = 'flex';
-          barGroup.style.flexDirection = 'column';
-          barGroup.style.flex = '1';
-          barGroup.style.height = '100%';
-          barGroup.style.position = 'relative';
+      chartData.forEach((data, index) => {
+        // Create a group for each month
+        const barGroup = document.createElement('div');
+        barGroup.style.display = 'flex';
+        barGroup.style.flexDirection = 'column';
+        barGroup.style.flex = '1';
+        barGroup.style.height = '100%';
+        barGroup.style.position = 'relative';
 
-          // Create current performance bar
-          const currentBar = document.createElement('div');
-          currentBar.className = 'chart-bar';
-          currentBar.style.height = `${(data.current / 5) * 100}%`;
-          currentBar.dataset.month = data.month;
-          currentBar.dataset.value = data.current;
-          currentBar.dataset.type = 'Current';
+        // Create current performance bar
+        const currentBar = document.createElement('div');
+        currentBar.className = 'chart-bar';
+        currentBar.style.height = `${(data.current / 5) * 100}%`;
+        currentBar.dataset.month = data.month;
+        currentBar.dataset.value = data.current;
+        currentBar.dataset.type = 'Current';
 
-          // Create previous performance bar
-          const previousBar = document.createElement('div');
-          previousBar.className = 'chart-bar chart-bar-2';
-          previousBar.style.height = `${(data.previous / 5) * 100}%`;
-          previousBar.style.marginTop = '2px';
-          previousBar.dataset.month = data.month;
-          previousBar.dataset.value = data.previous;
-          previousBar.dataset.type = 'Previous';
+        // Create previous performance bar
+        const previousBar = document.createElement('div');
+        previousBar.className = 'chart-bar chart-bar-2';
+        previousBar.style.height = `${(data.previous / 5) * 100}%`;
+        previousBar.style.marginTop = '2px';
+        previousBar.dataset.month = data.month;
+        previousBar.dataset.value = data.previous;
+        previousBar.dataset.type = 'Previous';
 
-          // Add month label
-          const monthLabel = document.createElement('div');
-          monthLabel.className = 'chart-label';
-          monthLabel.textContent = data.month;
+        // Add month label
+        const monthLabel = document.createElement('div');
+        monthLabel.className = 'chart-label';
+        monthLabel.textContent = data.month;
 
-          // Add tooltip event listeners
-          [currentBar, previousBar].forEach(bar => {
-            bar.addEventListener('mouseover', function(e) {
-              const rect = bar.getBoundingClientRect();
-              chartTooltip.innerHTML = `
-                <div>${bar.dataset.month}</div>
-                <div>${bar.dataset.type}: ${bar.dataset.value}</div>
-              `;
-              chartTooltip.style.top = `${rect.top - chartTooltip.offsetHeight - 10}px`;
-              chartTooltip.style.left = `${rect.left + (rect.width / 2) - (chartTooltip.offsetWidth / 2)}px`;
-              chartTooltip.style.opacity = '1';
-            });
-
-            bar.addEventListener('mouseout', function() {
-              chartTooltip.style.opacity = '0';
-            });
+        // Add tooltip event listeners
+        [currentBar, previousBar].forEach(bar => {
+          bar.addEventListener('mouseover', function(e) {
+            const rect = bar.getBoundingClientRect();
+            chartTooltip.innerHTML = `
+              <div>${bar.dataset.month}</div>
+              <div>${bar.dataset.type}: ${bar.dataset.value}</div>
+            `;
+            chartTooltip.style.top = `${rect.top - chartTooltip.offsetHeight - 10}px`;
+            chartTooltip.style.left = `${rect.left + (rect.width / 2) - (chartTooltip.offsetWidth / 2)}px`;
+            chartTooltip.style.opacity = '1';
           });
 
-          barGroup.appendChild(currentBar);
-          barGroup.appendChild(previousBar);
-          barGroup.appendChild(monthLabel);
-          performanceChart.appendChild(barGroup);
+          bar.addEventListener('mouseout', function() {
+            chartTooltip.style.opacity = '0';
+          });
         });
-      }
+
+        barGroup.appendChild(currentBar);
+        barGroup.appendChild(previousBar);
+        barGroup.appendChild(monthLabel);
+        performanceChart.appendChild(barGroup);
+      });
 
       // Add animation to progress bars with a slight delay for each
       const progressBars = document.querySelectorAll('.progress-bar');
